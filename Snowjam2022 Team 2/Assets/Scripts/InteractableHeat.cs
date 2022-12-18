@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class InteractableHeat : Interactable
 {
@@ -12,6 +13,8 @@ public class InteractableHeat : Interactable
     private float heatDegradeTime;
     private Animator animator;
 
+    [SerializeField] Light2D fireLight;
+    [SerializeField] float maxLightIntensity;
        
 
         // Start is called before the first frame update
@@ -73,10 +76,13 @@ public class InteractableHeat : Interactable
         if (heatSource.GetHeatLevel() > heatSource.GetMinHeat())
         {
             animator.SetBool("FireOn", true);
+            Debug.Log(heatSource.GetHeatLevel() / heatSource.GetMaxHeat());
+            fireLight.intensity = maxLightIntensity * (.75f + (heatSource.GetHeatLevel() / heatSource.GetMaxHeat()) * .25f);
         }
         else
         {
             animator.SetBool("FireOn", false);
+            fireLight.intensity = 0;
         }
     }
 
