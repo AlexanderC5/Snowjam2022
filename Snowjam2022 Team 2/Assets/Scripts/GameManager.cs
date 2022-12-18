@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
     private PlayerController playerController;
     private GameUI gameUI; // Get sceneUI
 
+    //enemies
+    [SerializeField] private GameObject basicEnemy;
+    private GameObject eliteEnemy;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -145,6 +149,16 @@ public class GameManager : MonoBehaviour
 
     public void spawnWave()
     {
+
+        int enemyNum = Random.Range(1, 3);
+        Vector3 playerPosition = playerController.transform.position;
+        for (int i = 0; i < enemyNum; i++)
+        {
+
+            Vector3 offset = new Vector3(Mathf.Cos(Random.Range(-Mathf.PI, Mathf.PI)), Mathf.Sin(Random.Range(-Mathf.PI, Mathf.PI))) * Random.Range(15, 30);
+
+            Instantiate(basicEnemy, playerPosition + offset, basicEnemy.transform.rotation);
+        }
         Debug.Log("this would be a wave spawn");
         waveNum += 1;
     }
