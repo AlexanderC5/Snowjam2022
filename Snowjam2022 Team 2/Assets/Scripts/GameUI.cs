@@ -14,11 +14,14 @@ public class GameUI : MonoBehaviour
         Play,
         Title,
         Settings,
-        Inventory
+        Inventory,
+        GameOver,
+        Restart
     }
 
     // Variables
     private Settings settings; // Global settings
+    private GameManager gameManager; // Game manager to check game over
 
     [SerializeField] private string titleSceneName; // For scene loading
 
@@ -32,6 +35,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameObject[] menus; // Stores settings and inventory menus
     private GameObject settingsMenu;
     private GameObject inventory;
+
+    [SerializeField] private GameObject gameOverScreen;
 
     [SerializeField] private GameObject healthMask;
     [SerializeField] private float[] healthMaskRange = new float[2]; // Trial-and-error range to make the health bars look right
@@ -50,6 +55,7 @@ public class GameUI : MonoBehaviour
         fadeAnimator = fadeTransition.GetComponent<Animator>();
         menuAnimator = menuTransition.GetComponent<Animator>();
         settings = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 
         // Add the menus from the inspector fields if they are valid
         for (int i = 0; i < menus.Length; i++)
@@ -65,6 +71,8 @@ public class GameUI : MonoBehaviour
                     break;
             }
         }
+
+        gameOverScreen.SetActive(false);
 
         // Start the scene by fading from black
         fadeAnimator.Play("FadeOut");
@@ -85,6 +93,9 @@ public class GameUI : MonoBehaviour
             else if (selectedMenu == Screen.Inventory) Back();
             else if (selectedMenu == Screen.Settings) Back();
         }
+
+        // Check Game over
+        if (gameManager.IsGameOver()) { GameOver(); }
     }
 
     // Set the values of UI Bars, ranging from 0-100%
@@ -97,6 +108,8 @@ public class GameUI : MonoBehaviour
     public void Settings() { selectedMenu = Screen.Settings; StartCoroutine(Transition()); }
     public void Inventory() { selectedMenu = Screen.Inventory; StartCoroutine(Transition()); }
     public void Back() { selectedMenu = Screen.Play; StartCoroutine(Transition()); }
+    public void GameOver() { selectedMenu = Screen.GameOver; StartCoroutine(Transition()); }
+    public void Restart() { selectedMenu = Screen.Restart; StartCoroutine(Transition()); }
 
     // Animated Transition between scenes/menus
     IEnumerator Transition()
@@ -138,7 +151,19 @@ public class GameUI : MonoBehaviour
                     yield return new WaitForSeconds(1f / settings.animationSpeed);
                 }
                 break;
-
+            case Screen.GameOver:
+                if (inventory.activeSelf || settingsMenu.activeSelf) { menuAnimator.Play("MenuHide"); }
+                gameOverScreen.SetActive(true);
+                gameOverScreen.GetComponent<Animator>().Play("GameOver");
+                yield return new WaitForSeconds(1f / settings.animationSpeed);
+                for (int i = 0; i < menus.Length; i++) { menus[i].SetActive(false); }
+                break;
+            case Screen.Restart:
+                fadeTransition.SetActive(true);
+                fadeAnimator.Play("FadeOut");
+                yield return new WaitForSeconds(1f / settings.animationSpeed);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                break;
         }
         currentlyTransitioning = false;
     }

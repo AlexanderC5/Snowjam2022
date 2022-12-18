@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     private float stunTimer;
     private bool stunned;
 
+    private GameManager gameManager; // Get Game Manager
+
     private void Awake()
     {
         stunTimer = 0;
@@ -33,11 +35,15 @@ public class Enemy : MonoBehaviour
         target = FindObjectOfType<PlayerController>().transform; //maybe have an aggro radius?
         playerMask = LayerMask.GetMask("Player");
         InitiateRoaming();
+
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameManager.IsGameOver()) { return; } // Disable the enemy if game over
+
         if (stunned)
         {
             if (stunTimer >= stunLength)
@@ -86,7 +92,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!stunned)
+        if(!stunned && !gameManager.IsGameOver())
         {
             rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
         } 

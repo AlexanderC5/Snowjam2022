@@ -25,26 +25,28 @@ public class GameManager : MonoBehaviour
     private float dayNightTimer;
     private int dayCount;
 
+    // Temperature
     [SerializeField]
     private float freezeMultiplier;
     [SerializeField]
     private float freezeDamageInterval;
     private float freezeTimer;
 
-
-
-    //lights
+    // Lights
     [SerializeField] private Light2D globalLight;
     private float nightLight = 0.02f;
     private float dayLight = 0.6f;
 
-
+    // Player
     private PlayerController playerController;
-    private GameUI gameUI; // Get sceneUI
+    private bool isGameOver;
 
-    //enemies
+    // Enemies
     [SerializeField] private GameObject basicEnemy;
     private GameObject eliteEnemy;
+
+    // Access UI
+    private GameUI gameUI;
 
     // Start is called before the first frame update
     void Awake()
@@ -187,4 +189,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+
+    public bool IsGameOver() { return isGameOver; }
+    public void SetGameOver(bool b) { isGameOver = b; }
 }

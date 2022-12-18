@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private float maxFreeze;
 
     private GameUI gameUI; // Get sceneUI
+    private GameManager gameManager; // Get Game Manager
 
     //torch
     int usingTorch;
@@ -110,11 +111,14 @@ public class PlayerController : MonoBehaviour
         animator = this.GetComponent<Animator>();
 
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameManager.IsGameOver()) { return; } // Disable the player if game over
+
         //damage cooldown
         if (isInvulnerable)
         {
@@ -178,13 +182,17 @@ public class PlayerController : MonoBehaviour
     //move player
     void FixedUpdate()
     {
+        if (gameManager.IsGameOver()) { return; } // Disable the player if game over
+
         // Movement
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Interactable")
+        if (gameManager.IsGameOver()) { return; } // Disable the player if game over
+
+        if (collision.tag == "Interactable")
         {
             lastInteract = collision.GetComponent<Interactable>();
             Debug.Log(lastInteract.GetName());
@@ -341,6 +349,7 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
+        gameManager.SetGameOver(true);
         Debug.Log("You Died. RIP.");
     }
 
