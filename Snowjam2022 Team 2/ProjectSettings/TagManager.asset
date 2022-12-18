@@ -18,7 +18,7 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - 
+  - Map
   - 
   - 
   - 
@@ -46,6 +46,9 @@ TagManager:
   m_SortingLayers:
   - name: BG
     uniqueID: 3746238211
+    locked: 0
+  - name: Map
+    uniqueID: 1358720687
     locked: 0
   - name: Default
     uniqueID: 0

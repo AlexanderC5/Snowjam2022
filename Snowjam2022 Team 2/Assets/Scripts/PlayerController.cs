@@ -411,7 +411,10 @@ public class PlayerController : MonoBehaviour
             {
                 tempInv.Add(item.itemName, 1);
             }
-                
+            if(item.itemName == "Axe")
+            {
+                choppingTime = 2; //reduce chopping time if you made an axe
+            }
             
             inv = tempInv;
         }
