@@ -83,6 +83,10 @@ public class PlayerController : MonoBehaviour
     bool fireUpgraded;
     public bool clothesUpgraded;
 
+
+    //frozen player
+    [SerializeField] GameObject frozenPlayer;
+
     // Start is called before the first frame update
 
     //changed to awake for efficiency
@@ -406,6 +410,7 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
+        DontDestroyOnLoad(Instantiate<GameObject>(frozenPlayer, gameObject.transform)); //spawn dead player
         gameManager.SetGameOver(true);
         Debug.Log("You Died. RIP.");
     }
@@ -598,6 +603,8 @@ public void Fish()
         animator.SetBool(state, true);
     }
     
+
+
 }
 
 
