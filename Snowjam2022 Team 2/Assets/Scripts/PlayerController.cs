@@ -434,8 +434,12 @@ public class PlayerController : MonoBehaviour
 
 public void Fish()
     {
-        fishing = true;
-        StartCoroutine(StartFish());
+        if(!fishing)
+        {
+            Debug.Log("starting fish");
+            fishing = true;
+            StartCoroutine(StartFish());
+        }
     }
     
 

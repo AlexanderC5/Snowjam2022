@@ -11,7 +11,6 @@ public class Fishing : Interactable
     {
         if(playerController.GetItem("Fishing Rod") > 0)
         {
-            Debug.Log("starting fish");
             playerController.Fish(); 
         }
     }
