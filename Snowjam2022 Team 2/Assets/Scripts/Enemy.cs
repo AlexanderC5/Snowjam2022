@@ -25,6 +25,9 @@ public class Enemy : MonoBehaviour
     private float stunTimer;
     private bool stunned;
 
+    public Animator animator;
+    private bool doesAnimatorExist = true;
+
     private GameManager gameManager; // Get Game Manager
 
     private void Awake()
@@ -36,6 +39,14 @@ public class Enemy : MonoBehaviour
         playerMask = LayerMask.GetMask("Player");
         InitiateRoaming();
 
+        try
+        {
+            animator = this.GetComponentsInChildren<Animator>()[0];
+        }
+        catch
+        {
+            doesAnimatorExist = false; // No animator exists, skip all animation code segments
+        }
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
@@ -73,7 +84,7 @@ public class Enemy : MonoBehaviour
             {
                 isAggro = true;
                 moveDirection = (target.position - transform.position).normalized;
-                rb.rotation = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+                //rb.rotation = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
             }
             // Player is not in range --> roam
             else
@@ -95,6 +106,23 @@ public class Enemy : MonoBehaviour
         if(!stunned && !gameManager.IsGameOver())
         {
             rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+
+            // Animation
+            if (doesAnimatorExist == true)
+            {
+                int animationDirection = 2;
+                if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(rb.velocity.y))
+                {
+                    if (rb.velocity.x > 0) animationDirection = 0;
+                    else animationDirection = 1;
+                }
+                else
+                {
+                    if (rb.velocity.y < 0) animationDirection = 2;
+                    else animationDirection = 3;
+                }
+                animator.SetInteger("Direction", animationDirection);
+            }
         } 
     }
 
@@ -117,7 +145,7 @@ public class Enemy : MonoBehaviour
             roamDuration = Random.Range(0f, roamMaxDuration);
             
             moveDirection = Random.insideUnitCircle;
-            rb.rotation = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            //rb.rotation = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
         }
         else if (!isIdle && roamTimer > roamDuration)
         {
