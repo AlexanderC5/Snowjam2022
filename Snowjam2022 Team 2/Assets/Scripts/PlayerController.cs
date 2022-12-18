@@ -70,11 +70,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject alert;
 
 
+    //upgrade
+    [SerializeField] GameObject fire;
+    [SerializeField] GameObject stove;
+    bool fireUpgraded;
+
+
     // Start is called before the first frame update
 
         //changed to awake for efficiency
     void Awake()
     {
+        fireUpgraded = false;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
         usingTorch = 0;
@@ -383,7 +390,20 @@ public class PlayerController : MonoBehaviour
         }
         if(success)
         {
-            if (tempInv.ContainsKey(item.itemName))
+            if(item.itemType == CraftableItem.ItemType.Upgrade)
+            {
+                if(!fireUpgraded)
+                {
+                    fire.SetActive(false);   
+                    stove.SetActive(true);
+                }
+                else
+                {
+                    return false; //already upgraded
+                }
+                
+            }
+            else if (tempInv.ContainsKey(item.itemName))
             {
                 tempInv[item.itemName] += 1; //todo; handle the different types
             }
