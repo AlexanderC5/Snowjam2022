@@ -14,12 +14,16 @@ public class FrozenObject : MonoBehaviour
     private int stage;
     private bool canMelt;
 
+    private AudioManager audioManager;
+    
+
 
     PlayerController playerController;
 
     // Start is called before the first frame update
     void Awake()
     {
+        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
         frozenObject.SetActive(false);
         stage = 2; //may need to change
         canMelt = false;
@@ -41,9 +45,11 @@ public class FrozenObject : MonoBehaviour
                     stage -= 1;
                     frozenSprite.SetActive(false);
                     thawSprite.SetActive(true);
+                    audioManager.PlaySFX("Interact_IceMelt2");
                 }
                 else //fully melted
                 {
+                    audioManager.PlaySFX("Interact_IceMelt1");
                     frozenObject.SetActive(true);
                     thawSprite.SetActive(false);
                     gameObject.SetActive(false); //turn self off

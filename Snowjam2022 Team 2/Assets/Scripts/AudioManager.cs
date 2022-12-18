@@ -111,6 +111,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    //added this
+    public void StopSFXName(string sfxName)
+    {
+        foreach (Sounds sound in sfx)
+        {
+            if(sound.clip.name.Contains(sfxName))
+                sound.source.Stop();
+        }
+    }
+
     public void StopSFX()
     {
         foreach(Sounds sound in sfx)
