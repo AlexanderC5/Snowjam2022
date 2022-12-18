@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int damage = 3;
 
     [SerializeField] private int health = 10;
-    [SerializeField] private float stunLength = 0.25f;
+    [SerializeField] private float stunLength = 0.15f;
     private float stunTimer;
     private bool stunned;
 
@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
             if (stunTimer >= stunLength)
             {
                 stunTimer = 0;
-                stunned = true;
+                stunned = false;
             }
             else
             {
@@ -86,7 +86,10 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+        if(!stunned)
+        {
+            rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+        } 
     }
 
     private void InitiateRoaming()
@@ -131,11 +134,29 @@ public class Enemy : MonoBehaviour
     {
         health -= damage;
         stunned = true; //hitstun
+
+        KnockBack();
+
         if (health <= 0)
         {
             Death();
         }
     }
+
+
+
+    private void KnockBack()
+    {
+        float timer = 0;
+        float kbmult = 15; //change this value to increase/decrease knockback
+        while (timer < stunLength)
+        {
+            rb.velocity = new Vector2(moveDirection.x, moveDirection.y) * kbmult * -1;
+            timer += Time.deltaTime;
+            kbmult -= Time.deltaTime;
+        }
+    }
+
 
     private void Death()
     {
