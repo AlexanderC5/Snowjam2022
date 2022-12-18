@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField]
-    private int heatLevel; //how warm the player is
+    private float heatLevel; //how warm the player is
 
     [SerializeField]
     private int choppingTime; //time to chop down a tree
@@ -46,6 +47,12 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+
+    //lighting
+    [SerializeField] GameObject torchLight;
+    [SerializeField] GameObject baseLight;
+
+
     //attacking
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange;
@@ -68,6 +75,8 @@ public class PlayerController : MonoBehaviour
         //changed to awake for efficiency
     void Awake()
     {
+        torchLight.SetActive(false);
+        baseLight.SetActive(true);
         usingTorch = 0;
         health = 100; //who knows, maybe up this
         maxHealth = 100;
@@ -83,7 +92,7 @@ public class PlayerController : MonoBehaviour
         //inv["Stick"] = 0;
 
         //numbers for testing, mostly
-        //inv["Wood"] = 3;
+        inv["Wood"] = 3;
         inv["Torch"] = 5;
         inv["Stick"] = 2;
 
@@ -244,9 +253,15 @@ public class PlayerController : MonoBehaviour
     {
         inv["Torch"] -= 1;
         Debug.Log("torch moment");
+        torchLight.SetActive(true);
+        baseLight.SetActive(false);
+        heatLevel += 0.5f;
         usingTorch += 1; //using an int so if you start burning a second torch it "resets" the timer.
         yield return new WaitForSeconds(torchBurnTime);
+        heatLevel -= 0.5f;
         usingTorch -= 1;
+        torchLight.SetActive(false);
+        baseLight.SetActive(true);
     }
 
     public bool UsingTorch()
@@ -263,12 +278,12 @@ public class PlayerController : MonoBehaviour
     }
 
     //heat
-    public int GetHeat()
+    public float GetHeat()
     {
         return heatLevel;
     }
 
-    public void ChangeHeat(int heatToAdd)
+    public void ChangeHeat(float heatToAdd)
     {
         heatLevel += heatToAdd;
     }
@@ -419,8 +434,12 @@ public class PlayerController : MonoBehaviour
 
 public void Fish()
     {
-        fishing = true;
-        StartCoroutine(StartFish());
+        if(!fishing)
+        {
+            Debug.Log("starting fish");
+            fishing = true;
+            StartCoroutine(StartFish());
+        }
     }
     
 

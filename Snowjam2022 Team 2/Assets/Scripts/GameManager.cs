@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
 
     private float timer;
-    private int tempLevel;
+    private float tempLevel;
     private int waveNum;
 
     [SerializeField]
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int nightLength;
     private bool day;
     private float dayNightTimer;
+    private int dayCount;
 
     [SerializeField]
     private float freezeMultiplier;
@@ -31,15 +33,23 @@ public class GameManager : MonoBehaviour
 
 
 
-
+    //lights
+    [SerializeField] private Light2D globalLight;
+    private float nightLight = 0.02f;
+    private float dayLight = 0.6f;
 
 
     private PlayerController playerController;
     private GameUI gameUI; // Get sceneUI
 
+    //enemies
+    [SerializeField] private GameObject basicEnemy;
+    private GameObject eliteEnemy;
+
     // Start is called before the first frame update
     void Awake()
     {
+        dayCount = 0;
         day = true;
         freezeTimer = 0;
         waveTimer = 0;
@@ -58,12 +68,28 @@ public class GameManager : MonoBehaviour
         {
             day = false;
             dayNightTimer = 0;
+            StartCoroutine(fadeNight());
+            waveTimer = 0;
+            waveNum = 1;
+            tempLevel += 1; //colder at night
         }
         if(!day && dayNightTimer >= nightLength)
         {
             day = true;
             dayNightTimer = 0;
-
+            StartCoroutine(fadeDay());
+            waveTimer = 0;
+            waveNum = 1;
+            dayCount += 1;
+            if(dayCount < dayTemperatures.Length)
+            {
+                tempLevel = dayTemperatures[dayCount];
+            }
+            else
+            {
+                tempLevel -= 1;
+            }
+            
         }
         if (!day)
         {
@@ -116,14 +142,43 @@ public class GameManager : MonoBehaviour
         return timer;
     }
 
-    public int getTemp()
+    public float getTemp()
     {
         return tempLevel;
     }
 
     public void spawnWave()
     {
+
+        int enemyNum = Random.Range(1, 3);
+        Vector3 playerPosition = playerController.transform.position;
+        for (int i = 0; i < enemyNum; i++)
+        {
+
+            Vector3 offset = new Vector3(Mathf.Cos(Random.Range(-Mathf.PI, Mathf.PI)), Mathf.Sin(Random.Range(-Mathf.PI, Mathf.PI))) * Random.Range(15, 30);
+
+            Instantiate(basicEnemy, playerPosition + offset, basicEnemy.transform.rotation);
+        }
         Debug.Log("this would be a wave spawn");
         waveNum += 1;
+    }
+
+    IEnumerator fadeNight()
+    {
+        while (globalLight.intensity > nightLight)
+        {
+            globalLight.intensity -= 0.001f;
+            yield return new WaitForEndOfFrame();
+        }
+        
+    }
+
+    IEnumerator fadeDay()
+    {
+        while (globalLight.intensity < dayLight)
+        {
+            globalLight.intensity += 0.001f;
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
