@@ -25,7 +25,7 @@ public class TitleUI : MonoBehaviour
     private Animator fadeAnimator;
     private Settings settings;
 
-    private Screen selectedMenu = Screen.Title;
+    private Screen selectedMenu;
     private List<Screen> previousMenus = new List<Screen>();
     [SerializeField] GameObject[] menus;
     private GameObject helpMenu;
@@ -141,7 +141,9 @@ public class TitleUI : MonoBehaviour
                     settingsMenu.SetActive(true);
                     break;
                 case Screen.Quit:
+                    Debug.Log("Game Quit by user");
                     Application.Quit();
+                    StopAllCoroutines();
                     break;
             }
         }
