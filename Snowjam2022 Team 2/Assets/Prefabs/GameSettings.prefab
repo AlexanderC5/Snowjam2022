@@ -45,12 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolume: 1
-  sfxVolume: 1
-  musVolume: 1
-  animationSpeed: 1
+  sfxVolume: 0.5
+  musVolume: 0.5
+  animationSpeed: 1.5
   difficulty: 1
-  zones:
-  - 300
-  - 600
-  - 900
   enemySpawnRate: 1
