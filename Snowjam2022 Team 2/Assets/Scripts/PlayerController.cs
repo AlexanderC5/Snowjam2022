@@ -72,14 +72,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject fire;
     [SerializeField] GameObject stove;
     bool fireUpgraded;
-
     public bool clothesUpgraded;
+
+
+    //tools
+    [SerializeField] GameObject toolPoint;
+    float LeftRight;
+    float UpDown;
 
     // Start is called before the first frame update
 
     //changed to awake for efficiency
     void Awake()
     {
+        LeftRight = 0;
+        UpDown = 0;
         fireUpgraded = false;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
@@ -177,6 +184,21 @@ public class PlayerController : MonoBehaviour
             fishing = false;
         }
 
+
+
+        //tool position
+
+       
+        if (movement.x != 0 || movement.y != 0)
+        {
+            LeftRight = movement.x;
+            UpDown = movement.y;
+        }
+
+        toolPoint.transform.position = new Vector3(
+            transform.position.x + (LeftRight * 2), transform.position.y + (UpDown * 2), 0
+            );
+        
     }
 
     //move player
