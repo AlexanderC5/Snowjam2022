@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6953642048157624295}
   - component: {fileID: 6953642048157624294}
   - component: {fileID: 6953642048157624290}
+  - component: {fileID: 194503334884067405}
   m_Layer: 0
   m_Name: Plant
   m_TagString: Interactable
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6953642048157624296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.7805, y: -3.6985, z: 0}
-  m_LocalScale: {x: 0.3989, y: 0.423, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.23935056, a: 1}
+  m_Sprite: {fileID: 21300000, guid: cbe9ac425697afb4194ee582409ab8b4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,18 +101,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.19704914, y: -0.03378606}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 6, y: 6}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.9378214, y: 5.2908063}
   m_EdgeRadius: 0
 --- !u!50 &6953642048157624294
 Rigidbody2D:
@@ -147,3 +148,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Plant
+--- !u!114 &194503334884067405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953642048157624296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 030f4bdf
+  m_ShapePath:
+  - {x: -0.21108484, y: -1.6588299, z: 0}
+  - {x: -0.2754016, y: -1.581289, z: 0}
+  - {x: -0.31832123, y: -1.4439471, z: 0}
+  - {x: -0.27949762, y: -1.3301995, z: 0}
+  - {x: -0.08655596, y: -1.246517, z: 0}
+  - {x: 0.13662577, y: -1.2293489, z: 0}
+  - {x: 0.36418772, y: -1.2977488, z: 0}
+  - {x: 0.35122347, y: -1.4782822, z: 0}
+  - {x: 0.27396822, y: -1.6070411, z: 0}
+  - {x: 0.11006975, y: -1.6337254, z: 0}
+  - {x: -0.026468277, y: -1.6928804, z: 0}
+  m_ShapePathHash: 73937903
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 277580

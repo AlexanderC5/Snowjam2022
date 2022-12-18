@@ -222,7 +222,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0336529, y: -0.063940585}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -233,7 +233,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.1038163, y: 1.9893967}
   m_EdgeRadius: 0
 --- !u!50 &4776347210191434660
 Rigidbody2D:
@@ -279,6 +279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4776347210406758305}
   - component: {fileID: 4776347210406758304}
+  - component: {fileID: 4523391468851640062}
   m_Layer: 0
   m_Name: FrozenSprite
   m_TagString: Untagged
@@ -353,6 +354,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4523391468851640062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776347210406758310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 030f4bdf
+  m_ShapePath:
+  - {x: -1.185796, y: -1.2536229, z: 0}
+  - {x: -1.189392, y: -0.49756038, z: 0}
+  - {x: 1.213995, y: -0.499445, z: 0}
+  - {x: 1.2084051, y: -1.2460866, z: 0}
+  m_ShapePathHash: 1109830845
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 276762
 --- !u!1 &4776347211147999093
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4776347211147999092}
   - component: {fileID: 4776347211147999095}
+  - component: {fileID: 1198877634248381806}
   m_Layer: 0
   m_Name: ThawingSprite
   m_TagString: Untagged
@@ -437,3 +466,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1198877634248381806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776347211147999093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 030f4bdf
+  m_ShapePath:
+  - {x: -1.185796, y: -1.2536229, z: 0}
+  - {x: -1.189392, y: -0.49756038, z: 0}
+  - {x: 1.213995, y: -0.499445, z: 0}
+  - {x: 1.2084051, y: -1.2460866, z: 0}
+  m_ShapePathHash: 1109830845
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 276762
