@@ -116,8 +116,14 @@ public class GameManager : MonoBehaviour
         */
 
         //freeze (or thaw) the player
-        playerController.ChangeFreeze((tempLevel - playerController.GetHeat()) * Time.deltaTime * freezeMultiplier);
-
+        if(playerController.clothesUpgraded && (tempLevel - playerController.GetHeat()) > 0)
+        {
+            playerController.ChangeFreeze((tempLevel - playerController.GetHeat()) * Time.deltaTime * freezeMultiplier * 0.33f);
+        }
+        else
+        {
+            playerController.ChangeFreeze((tempLevel - playerController.GetHeat()) * Time.deltaTime * freezeMultiplier);
+        }
         //check freeze damage after freezing player
         if(playerController.GetFreeze() >= 100)
         {

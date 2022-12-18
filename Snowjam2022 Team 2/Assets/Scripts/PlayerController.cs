@@ -75,10 +75,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject stove;
     bool fireUpgraded;
 
+    public bool clothesUpgraded;
 
     // Start is called before the first frame update
 
-        //changed to awake for efficiency
+    //changed to awake for efficiency
     void Awake()
     {
         fireUpgraded = false;
@@ -102,6 +103,8 @@ public class PlayerController : MonoBehaviour
         inv["Wood"] = 3;
         inv["Torch"] = 5;
         inv["Stick"] = 2;
+        inv["Plant Matter"] = 5;
+        inv["Herbs"] = 5;
 
         rb = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
@@ -390,7 +393,7 @@ public class PlayerController : MonoBehaviour
         }
         if(success)
         {
-            if(item.itemType == CraftableItem.ItemType.Upgrade)
+            if(item.itemName == "Stove")
             {
                 if(!fireUpgraded)
                 {
@@ -403,6 +406,24 @@ public class PlayerController : MonoBehaviour
                 }
                 
             }
+            else if(item.itemName == "Warm Clothes")
+            {
+                if(!clothesUpgraded)
+                {
+                    clothesUpgraded = true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if(item.itemName == "Medicine")
+            {
+                health += 20;
+                if(health > 100) //hardcoded max health :(
+                    health = 100;
+            }
+           
             else if (tempInv.ContainsKey(item.itemName))
             {
                 tempInv[item.itemName] += 1; //todo; handle the different types
