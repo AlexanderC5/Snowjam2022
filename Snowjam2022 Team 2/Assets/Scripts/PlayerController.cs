@@ -166,7 +166,8 @@ public class PlayerController : MonoBehaviour
         //cancel fish if move
         if (fishing && (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0))
         {
-            Debug.Log("fishing canceled :(((");
+            alert.SetBool("fishing", false);
+            alert.SetBool("fish", true);
             fishing = false;
         }
         if (catchChance && Input.GetMouseButtonDown(0))
@@ -523,27 +524,32 @@ public void Fish()
 
     private IEnumerator StartFish()
     {
-        
+        alert.SetBool("fishing", true);
+        alert.SetBool("fish", false);
         yield return new WaitForSeconds(Random.Range(5, 10));
         if(fishing)
         {
+            alert.SetBool("alert", true);
             catchChance = true;
             Debug.Log("FISH TIME");
-            StartCoroutine(Alert());
+            //StartCoroutine(Alert());
             yield return new WaitForSeconds(1);
             catchChance = false;
             fishing = false;
+            alert.SetBool("alert", false);
+            alert.SetBool("fishing", false);
+            alert.SetBool("fish", true);
         }
     }
     
-    
+    /*
     private IEnumerator Alert()
     {
-        SetState(alert, "alert");
+        //SetState(alert, "alert");
         yield return new WaitForSeconds(1);
         alert.SetBool("alert", false);
     }
-
+    */
     private void ResetState(Animator animator)
     {
         foreach(AnimatorControllerParameter value in animator.parameters)
