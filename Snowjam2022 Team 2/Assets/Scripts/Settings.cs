@@ -18,6 +18,8 @@ public class Settings : MonoBehaviour
     // public float[] zones = { 300f, 600f, 900f }; // Enemy spawning zones (DROPPED IDEA)
     public float enemySpawnRate = 1f;
 
+    AudioManager audioManager;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,11 +31,25 @@ public class Settings : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        audioManager = GetComponent<AudioManager>();
+        
+    }
+
+    private void Start()
+    {
+        audioManager.PlayMusic("OST_Title");
     }
 
     public void SetAnimationSpeed(float spd) { animationSpeed = spd; }
-    public void SetMasterVolume(float vol) { masterVolume = vol; }
-    public void SetMusVolume(float vol) { musVolume = vol; }
-    public void SetSfxVolume(float vol) { sfxVolume = vol; }
+    public void SetMasterVolume(float vol) { masterVolume = vol;
+        audioManager.SetLevelHelper(vol, "Master");
+    }
+    public void SetMusVolume(float vol) { musVolume = vol;
+        audioManager.SetLevelHelper(vol, "Music");
+    }
+    public void SetSfxVolume(float vol) { sfxVolume = vol;
+        audioManager.SetLevelHelper(vol, "SFX");
+    }
     public void SetEnemyDifficulty(float dif) { difficulty = (int) dif; }
 }

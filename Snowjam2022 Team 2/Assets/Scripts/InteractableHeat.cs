@@ -15,11 +15,12 @@ public class InteractableHeat : Interactable
 
     [SerializeField] Light2D fireLight;
     [SerializeField] float maxLightIntensity;
-       
 
-        // Start is called before the first frame update
+    private AudioManager audioManager;
+    // Start is called before the first frame update
     void Awake()
     {
+        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
         //heatSource = gameObject.GetComponent<HeatSource>(); //doesn't work due to multi-part setup for fire
         heatSource = gameObject.GetComponentInChildren<HeatSource>();
         animator = GetComponent<Animator>();
@@ -35,7 +36,8 @@ public class InteractableHeat : Interactable
             heatSource.ChangeHeatLevel(1);
             heatSource.player.RemoveItem("Wood");
             heatTimer = 0;
-
+            //audioManager.StopSFXName("Ambient_Fire");
+            //audioManager.PlaySFX("Ambient_Fire");
             //uncomment this if you want the fire to burn only longer with more fuel - aka weaker.
             /*
             if(heatSource.GetHeatLevel() > heatSource.GetMinHeat())
@@ -81,6 +83,7 @@ public class InteractableHeat : Interactable
         }
         else
         {
+            //audioManager.StopSFXName("Ambient_Fire");
             animator.SetBool("FireOn", false);
             fireLight.intensity = 0;
         }

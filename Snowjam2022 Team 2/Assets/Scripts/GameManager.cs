@@ -50,9 +50,13 @@ public class GameManager : MonoBehaviour
     // Access UI
     private GameUI gameUI;
 
+    //Access audio
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Awake()
     {
+
         dayCount = 0;
         day = true;
         freezeTimer = 0;
@@ -61,6 +65,7 @@ public class GameManager : MonoBehaviour
         waveNum = 1;
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
+        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -76,6 +81,10 @@ public class GameManager : MonoBehaviour
             waveTimer = 0;
             waveNum = 1;
             tempLevel += 1; //colder at night
+            audioManager.StopMusic();
+            audioManager.PlaySFX("TimeChange_ToNight");
+            StartCoroutine(playMusicDelayed("OST_Night1"));
+            
         }
         if(!day && dayNightTimer >= nightLength)
         {
@@ -93,7 +102,11 @@ public class GameManager : MonoBehaviour
             {
                 tempLevel -= 1;
             }
+            audioManager.StopMusic();
+            audioManager.PlaySFX("TimeChange_ToDay");
+            StartCoroutine(playMusicDelayed("OST_Title"));
             
+
         }
         if (!day)
         {
@@ -140,6 +153,14 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    
+    private IEnumerator playMusicDelayed(string song)
+    {
+        yield return new WaitForSeconds(5);
+        audioManager.PlayMusic(song);
+    }
+
 
     private void tempChange(int toChange)
     {

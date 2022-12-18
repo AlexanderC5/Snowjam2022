@@ -8506,6 +8506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1329033877}
   - component: {fileID: 1329033876}
+  - component: {fileID: 1329033878}
   m_Layer: 0
   m_Name: GameSettings
   m_TagString: Settings
@@ -8530,10 +8531,6 @@ MonoBehaviour:
   musVolume: 1
   animationSpeed: 1.5
   difficulty: 1
-  zones:
-  - 300
-  - 600
-  - 900
   enemySpawnRate: 1
 --- !u!4 &1329033877
 Transform:
@@ -8550,6 +8547,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329033878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329033875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4800e2a3f26f143ae8082c619c0e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music:
+  - source: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8275f2d0083e3b54ba3061c4365786f5, type: 3}
+    loop: 1
+  - source: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9a02c46a8d3cf334e915f86e3728d7ae, type: 3}
+    loop: 1
+  sfx: []
 --- !u!1 &1354564091
 GameObject:
   m_ObjectHideFlags: 0
