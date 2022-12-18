@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
     public void spawnWave()
     {
 
-        int enemyNum = Random.Range(1, 4);
+        int enemyNum = Random.Range(3, 5);
         Vector3 playerPosition = playerController.transform.position;
         for (int i = 0; i < enemyNum; i++)
         {

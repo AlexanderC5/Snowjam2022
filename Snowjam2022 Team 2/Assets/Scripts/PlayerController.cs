@@ -65,7 +65,8 @@ public class PlayerController : MonoBehaviour
     private bool fishing;
 
     //alert
-    [SerializeField] GameObject alert;
+    //[SerializeField] GameObject alert;
+    [SerializeField] Animator alert;
 
     //upgrade
     [SerializeField] GameObject fire;
@@ -130,6 +131,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && lastInteract != null)// && interactList.Count > 0)
         {
             lastInteract.Interact(this);
+
+
+
             //interactList[0].Interact(this);
             //interactList.RemoveAt(0);
         }
@@ -191,6 +195,30 @@ public class PlayerController : MonoBehaviour
         {
             lastInteract = collision.GetComponent<Interactable>();
             Debug.Log(lastInteract.GetName());
+            
+            switch(lastInteract.GetName())
+            {
+                case "Tree":
+                    SetState(alert, "chop");
+                    break;
+                case "FishingHole":
+                    SetState(alert, "fish");
+                    break;
+                case "Stone":
+                    SetState(alert, "rock");
+                    break;
+                case "Plant":
+                    SetState(alert, "plant");
+                    break;
+                case "Fire":
+                case "Stove":
+                    SetState(alert, "fire");
+                    break;
+                default:
+                    break;
+
+            }
+
             //lastInteractName = lastInteract.GetName();
             //interactList.Insert(0, obj);
         }
@@ -201,6 +229,7 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.tag == "Interactable")
         {
+            ResetState(alert);
             lastInteract = null;
         }
     }
@@ -507,12 +536,29 @@ public void Fish()
         }
     }
     
+    
     private IEnumerator Alert()
     {
-        alert.SetActive(true);
+        SetState(animator, "alert");
         yield return new WaitForSeconds(1);
-        alert.SetActive(false);
+        animator.SetBool("alert", false);
     }
+
+    private void ResetState(Animator animator)
+    {
+        foreach(AnimatorControllerParameter value in animator.parameters)
+        {
+            animator.SetBool(value.name, false);
+        }
+    }
+
+
+    private void SetState(Animator animator, string state)
+    {
+        ResetState(animator);
+        animator.SetBool(state, true);
+    }
+    
 }
 
 

@@ -201,6 +201,8 @@ GameObject:
   - component: {fileID: 5701377773414229485}
   - component: {fileID: 5701377773414229484}
   - component: {fileID: 5701377773414229475}
+  - component: {fileID: 7860505044378074916}
+  - component: {fileID: 8785721013703320251}
   m_Layer: 6
   m_Name: EnemyAWander
   m_TagString: Untagged
@@ -238,7 +240,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.090091705, y: 0.75244856}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -249,7 +251,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.5517616, y: 3.7190943}
   m_EdgeRadius: 0
 --- !u!50 &5701377773414229484
 Rigidbody2D:
@@ -271,7 +273,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &5701377773414229475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,3 +294,72 @@ MonoBehaviour:
   health: 10
   stunLength: 0.25
   animator: {fileID: 0}
+--- !u!58 &7860505044378074916
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701377773414229474}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.059146166, y: 0.39431977}
+  serializedVersion: 2
+  m_Radius: 1.3675048
+--- !u!114 &8785721013703320251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701377773414229474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 030f4bdf
+  m_ShapePath:
+  - {x: -0.911253, y: -0.8966098, z: 0}
+  - {x: -1.2176342, y: -0.7126546, z: 0}
+  - {x: -1.4423599, y: -0.50490665, z: 0}
+  - {x: -1.4915047, y: -0.45762348, z: 0}
+  - {x: -1.5403595, y: -0.3848133, z: 0}
+  - {x: -1.5704212, y: -0.35085392, z: 0}
+  - {x: -1.5653877, y: -0.2986431, z: 0}
+  - {x: -1.5332832, y: -0.2580104, z: 0}
+  - {x: -1.4729366, y: -0.24408436, z: 0}
+  - {x: -1.3896179, y: -0.22268248, z: 0}
+  - {x: -1.2403698, y: -0.1561923, z: 0}
+  - {x: -0.9712734, y: -0.10616112, z: 0}
+  - {x: -0.7192974, y: -0.07016802, z: 0}
+  - {x: -0.3378029, y: -0.040224552, z: 0}
+  - {x: -0.0013084412, y: -0.018940449, z: 0}
+  - {x: 0.32063484, y: -0.0147275925, z: 0}
+  - {x: 0.50686455, y: -0.026985168, z: 0}
+  - {x: 0.7750511, y: -0.05178547, z: 0}
+  - {x: 1.0333481, y: -0.07546711, z: 0}
+  - {x: 1.2532654, y: -0.10399389, z: 0}
+  - {x: 1.3853703, y: -0.12653637, z: 0}
+  - {x: 1.4784355, y: -0.15543652, z: 0}
+  - {x: 1.5248032, y: -0.16770792, z: 0}
+  - {x: 1.5404949, y: -0.19691038, z: 0}
+  - {x: 1.5290298, y: -0.23956633, z: 0}
+  - {x: 1.5103741, y: -0.29269123, z: 0}
+  - {x: 1.3996086, y: -0.45365906, z: 0}
+  - {x: 1.0167351, y: -0.81391716, z: 0}
+  - {x: 0.4813156, y: -1.0434237, z: 0}
+  - {x: -0.22532845, y: -1.0734935, z: 0}
+  m_ShapePathHash: -465807171
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 262622
