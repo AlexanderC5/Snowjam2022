@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 5701377773414229484}
   - component: {fileID: 5701377773414229475}
   m_Layer: 6
-  m_Name: EnemyA
+  m_Name: EnemyAWander
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  aggroRange: 5
+  aggroRange: 15
   roamMaxDuration: 4
   idleMaxDuration: 7
   damage: 3

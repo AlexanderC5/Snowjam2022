@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     // Enemies
     [SerializeField] private GameObject basicEnemy;
+    [SerializeField] private GameObject basicEnemyWander;
     private GameObject eliteEnemy;
 
     // Access UI
@@ -103,6 +104,7 @@ public class GameManager : MonoBehaviour
             if (waveTimer >= waveNum * waveInterval)
             {
                 spawnWave();
+                waveTimer = 0;
             }
         }
 
@@ -159,16 +161,21 @@ public class GameManager : MonoBehaviour
     public void spawnWave()
     {
 
-        int enemyNum = Random.Range(1, 3);
+        int enemyNum = Random.Range(1, 4);
         Vector3 playerPosition = playerController.transform.position;
         for (int i = 0; i < enemyNum; i++)
         {
-
-            Vector3 offset = new Vector3(Mathf.Cos(Random.Range(-Mathf.PI, Mathf.PI)), Mathf.Sin(Random.Range(-Mathf.PI, Mathf.PI))) * Random.Range(15, 30);
-
+            Debug.Log("spawning aggro");
+            Vector3 offset = new Vector3(Mathf.Cos(Random.Range(-Mathf.PI, Mathf.PI)), Mathf.Sin(Random.Range(-Mathf.PI, Mathf.PI))) * Random.Range(30, 45);
             Instantiate(basicEnemy, playerPosition + offset, basicEnemy.transform.rotation);
         }
-        Debug.Log("this would be a wave spawn");
+        enemyNum = Random.Range(3, 8);
+        for (int i = 0; i < enemyNum; i++)
+        {
+            Vector3 offset = new Vector3(Mathf.Cos(Random.Range(-Mathf.PI, Mathf.PI)), Mathf.Sin(Random.Range(-Mathf.PI, Mathf.PI))) * Random.Range(70, 120);
+            Instantiate(basicEnemyWander, playerPosition + offset, basicEnemyWander.transform.rotation);
+        }
+        //Debug.Log("this would be a wave spawn");
         waveNum += 1;
     }
 

@@ -1438,7 +1438,8 @@ MonoBehaviour:
   freezeDamageInterval: 0.5
   globalLight: {fileID: 833293828}
   disableGameOver: 0
-  basicEnemy: {fileID: 5701377773414229474, guid: f60bdedb6899a2a478a7c549d18c4b8d, type: 3}
+  basicEnemy: {fileID: 5701377773414229474, guid: 7b8ae9929972ea341a8171ad83f2d107, type: 3}
+  basicEnemyWander: {fileID: 5701377773414229474, guid: f60bdedb6899a2a478a7c549d18c4b8d, type: 3}
 --- !u!4 &962104479
 Transform:
   m_ObjectHideFlags: 0
@@ -5515,6 +5516,10 @@ PrefabInstance:
       propertyPath: fireLight
       value: 
       objectReference: {fileID: 2112783859}
+    - target: {fileID: 501064384409109807, guid: 2fce9bfdd749de444928774cf45e5da1, type: 3}
+      propertyPath: heatDegradeTime
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fce9bfdd749de444928774cf45e5da1, type: 3}
 --- !u!1001 &1641345105
@@ -6219,7 +6224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Stove
-  heatDegradeTime: 30
+  heatDegradeTime: 45
   fireLight: {fileID: 5981690053574865319}
   maxLightIntensity: 0.8
 --- !u!212 &501064384556281364
