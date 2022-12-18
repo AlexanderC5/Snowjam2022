@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     private Interactable lastInteract; //tracks what you can interact with (most recent collision with an interactable)
     //private string lastInteractName; useless, unless pick up items are overlapping for some reason
 
-
     [SerializeField]
     private float heatLevel; //how warm the player is
 
@@ -41,10 +40,9 @@ public class PlayerController : MonoBehaviour
 
     //player movement
     public float moveSpeed = 5f;
+    Vector2 movement;
 
     public Rigidbody2D rb;
-
-    Vector2 movement;
 
     public Animator animator;
 
@@ -60,6 +58,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float attackCooldown = 0.5f;
     private float attackCooldownTimer;
 
+    private Vector2 playerDirection;
+    [SerializeField] private float toolDistance = 2;
+
+    //tools
+    [SerializeField] private GameObject toolPoint;
+    [SerializeField] private string[] toolNames;
+    [SerializeField] private Sprite[] toolSprites;
+    private Dictionary<string, Sprite> toolDict = new Dictionary<string, Sprite>();
+    private SpriteRenderer equippedToolSprite;
+    private string equippedTool = "None";
+
     //fishing
     private bool catchChance;
     private bool fishing;
@@ -74,19 +83,11 @@ public class PlayerController : MonoBehaviour
     bool fireUpgraded;
     public bool clothesUpgraded;
 
-
-    //tools
-    [SerializeField] GameObject toolPoint;
-    float LeftRight;
-    float UpDown;
-
     // Start is called before the first frame update
 
     //changed to awake for efficiency
     void Awake()
     {
-        LeftRight = 0;
-        UpDown = 0;
         fireUpgraded = false;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
@@ -115,6 +116,7 @@ public class PlayerController : MonoBehaviour
 
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        equippedToolSprite = GameObject.FindGameObjectWithTag("EquippedTool").GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -122,25 +124,27 @@ public class PlayerController : MonoBehaviour
     {
         if (gameManager.IsGameOver()) { return; } // Disable the player if game over
 
-        //damage cooldown
-        if (isInvulnerable)
-        {
-            invulnTimer += Time.deltaTime;
-        }
+        // Damage cooldown
+        if (isInvulnerable) { invulnTimer += Time.deltaTime; }
 
-        //movement
+        // Player direction
+        Vector2 screenCursorPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        Vector2 worldCursorPos = Camera.main.ScreenToWorldPoint(screenCursorPos);
+        Vector2 playerPos = new Vector2(this.transform.position.x, this.transform.position.y);
+        playerDirection = (worldCursorPos - playerPos);
+        playerDirection = playerDirection / playerDirection.magnitude; // Convert to unit vector
+
+        // Movement
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
-        //Debug.Log(heatLevel);
+
+        // Interact
         if (Input.GetKeyDown(KeyCode.E) && lastInteract != null)// && interactList.Count > 0)
         {
             lastInteract.Interact(this);
-
-
-
             //interactList[0].Interact(this);
             //interactList.RemoveAt(0);
         }
@@ -148,13 +152,15 @@ public class PlayerController : MonoBehaviour
         {
             lastInteract.HoldInteract(this); //used for tree chopping/other long interactions
         }
-        //torch
+
+        // Torch
         if (Input.GetKeyDown(KeyCode.Q) && inv["Torch"] > 0)
         {
             StartCoroutine(UseTorch()); //TODO
         }
+        if (UsingTorch() && equippedTool == "None") SetToolSprite("Torch"); // Show the torch sprite only if a different tool isn't being held
 
-        if(Input.GetMouseButtonDown(0) && attackCooldownTimer <= 0)
+        if (Input.GetMouseButtonDown(0) && attackCooldownTimer <= 0)
         {
             Attack();
             attackCooldownTimer = attackCooldown;
@@ -176,32 +182,22 @@ public class PlayerController : MonoBehaviour
             alert.SetBool("fishing", false);
             alert.SetBool("fish", true);
             fishing = false;
+            SetToolSprite("None");
         }
         if (catchChance && Input.GetMouseButtonDown(0))
         {
             AddItem("Fish");
             catchChance = false;
             fishing = false;
+            SetToolSprite("None");
         }
 
-
-
-        //tool position
-
-       
-        if (movement.x != 0 || movement.y != 0)
-        {
-            LeftRight = movement.x;
-            UpDown = movement.y;
-        }
-
-        toolPoint.transform.position = new Vector3(
-            transform.position.x + (LeftRight * 2), transform.position.y + (UpDown * 2), 0
-            );
-        
+        // Tool and attack position, defined by the cursor
+        toolPoint.transform.position = transform.position + new Vector3(playerDirection.x, playerDirection.y) * toolDistance;
+        attackPoint.transform.position = transform.position + new Vector3(playerDirection.x, playerDirection.y) * toolDistance;
     }
 
-    //move player
+    //Move player
     void FixedUpdate()
     {
         if (gameManager.IsGameOver()) { return; } // Disable the player if game over
@@ -327,6 +323,20 @@ public class PlayerController : MonoBehaviour
         usingTorch -= 1;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
+        if (equippedTool == "Torch") SetToolSprite("None"); // Remove the torch sprite
+    }
+
+    public void SetToolSprite(string tool)
+    {
+        equippedTool = tool;
+        for (int i = 0; i < toolNames.Length; i++)
+        {
+            if (equippedTool.Equals(toolNames[i]))
+            {
+                equippedToolSprite.sprite = toolSprites[i];
+                return;
+            }
+        }
     }
 
     public bool UsingTorch()
@@ -546,6 +556,7 @@ public void Fish()
 
     private IEnumerator StartFish()
     {
+        SetToolSprite("Fishing Rod");
         alert.SetBool("fishing", true);
         alert.SetBool("fish", false);
         yield return new WaitForSeconds(Random.Range(5, 10));

@@ -10,6 +10,7 @@ TagManager:
   - InventoryItems
   - CraftingItems
   - CraftingDescription
+  - EquippedTool
   layers:
   - Default
   - TransparentFX
