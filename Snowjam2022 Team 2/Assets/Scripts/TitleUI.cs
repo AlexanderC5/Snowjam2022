@@ -58,11 +58,6 @@ public class TitleUI : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        fadeAnimator.speed = settings.animationSpeed;
-    }
-
     public void Title()
     {
         previousMenus.Add(selectedMenu);
@@ -112,6 +107,8 @@ public class TitleUI : MonoBehaviour
 
     IEnumerator FadeButtonPressed(string whichFade)
     {
+        fadeAnimator.speed = settings.animationSpeed;
+
         fadeTransition.SetActive(true);
 
         if (whichFade == "out" || whichFade == "both")

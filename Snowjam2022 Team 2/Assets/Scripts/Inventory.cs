@@ -7,7 +7,6 @@ using TMPro;
 
 public class Inventory : MonoBehaviour
 {
-    private Settings settings;
     private PlayerController player;
 
     [SerializeField] Sprite nullItemSprite;
@@ -27,7 +26,6 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        settings = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
         player = FindObjectOfType<PlayerController>();
 
         itemSlots = GameObject.FindGameObjectsWithTag("InventoryItems");
@@ -47,7 +45,7 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-            itemDict = player.GetDict();
+        itemDict = player.GetDict();
 
         int itemSlot = 0;
         foreach(KeyValuePair<string, int> item in itemDict)
@@ -72,10 +70,6 @@ public class Inventory : MonoBehaviour
                     itemSlot++;
                 }
             }
-            else
-            {
-                //Debug.Log("Item not found, define the object in the Inventory");
-            }
         }
         // Blank out the rest of the inventory slots
         while (itemSlot < itemSlots.Length)
@@ -87,33 +81,19 @@ public class Inventory : MonoBehaviour
 
         // Crafting display
         craftSlots[1].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftSlot];
-        if (craftSlot < craftList.Count - 1)
-        {
-            craftSlots[2].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftSlot + 1];
-        }
-        else
-        {
-            craftSlots[2].GetComponentsInChildren<Image>()[1].sprite = craftSprites[0];
-        }
-        if (craftSlot > 0)
-        {
-            craftSlots[0].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftSlot - 1];
-        }
-        else
-        {
-            craftSlots[0].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftList.Count - 1];
-        }
+        if (craftSlot < craftList.Count - 1) { craftSlots[2].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftSlot + 1]; }
+        else { craftSlots[2].GetComponentsInChildren<Image>()[1].sprite = craftSprites[0]; }
+        if (craftSlot > 0) { craftSlots[0].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftSlot - 1]; }
+        else { craftSlots[0].GetComponentsInChildren<Image>()[1].sprite = craftSprites[craftList.Count - 1]; }
+
         // Required materials window
         List<string> materialsList = craftList[craftSlot].requiredMaterials;
-        
         craftDescription.text = materialsList[0];
         for (int i = 1; i < materialsList.Count; i++)
         {
             craftDescription.text += ", " + materialsList[i];
         }
-        //Crafting status
-        craftDescription.text += "\n\n" + craftStatus;
-
+        craftDescription.text += "\n\n" + craftStatus; // Crafting status (to mark if crafting failed)
     }
 
     public void ScrollCraftingWindow(string dir)
