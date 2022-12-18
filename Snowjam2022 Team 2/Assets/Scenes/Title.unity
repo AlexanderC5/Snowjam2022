@@ -217,7 +217,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1329033876}
         m_TargetAssemblyTypeName: Settings, Assembly-CSharp
-        m_MethodName: SetAnimationSpeed
+        m_MethodName: SetMusVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1530,7 +1530,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1329033876}
         m_TargetAssemblyTypeName: Settings, Assembly-CSharp
-        m_MethodName: SetAnimationSpeed
+        m_MethodName: SetMasterVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
