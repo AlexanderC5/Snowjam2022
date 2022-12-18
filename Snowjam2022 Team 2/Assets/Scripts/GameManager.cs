@@ -82,7 +82,8 @@ public class GameManager : MonoBehaviour
             waveNum = 1;
             tempLevel += 1; //colder at night
             audioManager.StopMusic();
-            audioManager.PlayMusic("OST_Night1");
+            audioManager.PlaySFX("TimeChange_ToNight");
+            StartCoroutine(playMusicDelayed("OST_Night1"));
             
         }
         if(!day && dayNightTimer >= nightLength)
@@ -102,7 +103,9 @@ public class GameManager : MonoBehaviour
                 tempLevel -= 1;
             }
             audioManager.StopMusic();
-            audioManager.PlayMusic("OST_Title");
+            audioManager.PlaySFX("TimeChange_ToDay");
+            StartCoroutine(playMusicDelayed("OST_Title"));
+            
 
         }
         if (!day)
@@ -150,6 +153,14 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    
+    private IEnumerator playMusicDelayed(string song)
+    {
+        yield return new WaitForSeconds(5);
+        audioManager.PlayMusic(song);
+    }
+
 
     private void tempChange(int toChange)
     {

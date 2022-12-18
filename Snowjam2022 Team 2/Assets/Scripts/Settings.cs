@@ -33,6 +33,11 @@ public class Settings : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         audioManager = GetComponent<AudioManager>();
+        
+    }
+
+    private void Start()
+    {
         audioManager.PlayMusic("OST_Title");
     }
 
