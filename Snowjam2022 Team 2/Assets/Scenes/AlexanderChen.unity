@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 285265476553693326, guid: 066e3c7a0c5bfd64b9149949c5a737ab, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 285265476553693361, guid: 066e3c7a0c5bfd64b9149949c5a737ab, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -217,6 +221,14 @@ PrefabInstance:
     - target: {fileID: 285265476553693361, guid: 066e3c7a0c5bfd64b9149949c5a737ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5229942471150717806, guid: 066e3c7a0c5bfd64b9149949c5a737ab, type: 3}
+      propertyPath: m_SortingOrder
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383000573522244976, guid: 066e3c7a0c5bfd64b9149949c5a737ab, type: 3}
+      propertyPath: m_SortingOrder
+      value: 99
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066e3c7a0c5bfd64b9149949c5a737ab, type: 3}
