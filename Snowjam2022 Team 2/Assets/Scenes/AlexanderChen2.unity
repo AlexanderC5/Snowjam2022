@@ -819,11 +819,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2913376687315891715, guid: 6a6558edddd403643a5a51df4cfc2a3e, type: 3}
   m_PrefabInstance: {fileID: 1843557265}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &419523884 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 501064384409109802, guid: 2fce9bfdd749de444928774cf45e5da1, type: 3}
-  m_PrefabInstance: {fileID: 1633259841}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &419904188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12882,6 +12877,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
   - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
   - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
+  - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
   itemList:
   - Wood
   - Stick
@@ -12889,8 +12885,10 @@ MonoBehaviour:
   - Plant Matter
   - Herbs
   - Torch
+  - Fish
   craftSprites:
   - {fileID: 21300000, guid: e03b98a91b6cf994f9e07cd9be0aab50, type: 3}
+  - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
   - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
   - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
   - {fileID: 21300000, guid: e039412e8f1604d4997866af1c8c9ced, type: 3}
@@ -17134,16 +17132,48 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: fire
       value: 
-      objectReference: {fileID: 419523884}
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: alert
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: stove
       value: 
-      objectReference: {fileID: 501064384556281365}
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: baseLight
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: torchLight
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: attackRange
+      value: 6.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: enemyLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: craftList.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: craftList.Array.data[3].itemName
@@ -17158,8 +17188,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: craftList.Array.data[5].itemName
+      value: Warm Clothes
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: craftList.Array.data[5].itemType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: craftList.Array.data[4].requiredMaterials.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: craftList.Array.data[5].requiredMaterials.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: craftList.Array.data[4].requiredMaterials.Array.data[0]
@@ -17188,6 +17230,18 @@ PrefabInstance:
     - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: craftList.Array.data[4].requiredMaterials.Array.data[6]
       value: Stick
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: craftList.Array.data[5].requiredMaterials.Array.data[0]
+      value: Plant Matter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: craftList.Array.data[5].requiredMaterials.Array.data[1]
+      value: Plant Matter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823809595233878413, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
+      propertyPath: craftList.Array.data[5].requiredMaterials.Array.data[2]
+      value: Plant Matter
       objectReference: {fileID: 0}
     - target: {fileID: 5823809595233878419, guid: de458f50bf364c344a11a06d1e6a5a2b, type: 3}
       propertyPath: m_RootOrder
