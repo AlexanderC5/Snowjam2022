@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// These variables persist for as long as the game is running, regardless of scene changing
+/// </summary>
 public class Settings : MonoBehaviour
 {
     public static Settings Instance;

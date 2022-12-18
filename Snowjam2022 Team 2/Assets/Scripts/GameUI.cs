@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class GameUI : MonoBehaviour
 {
-    enum Screen
+    enum Screen // Destination menu/scene that can be activated via buttons
     {
         Play,
         Title,
@@ -18,22 +18,23 @@ public class GameUI : MonoBehaviour
     }
 
     // Variables
-    [SerializeField] private string titleSceneName;
-    [SerializeField] private GameObject menuTransition;
-    [SerializeField] private GameObject fadeTransition;
-    private bool currentlyTransitioning = false;
-    private Animator fadeAnimator;
-    private Animator menuAnimator;
-    private Settings settings;
+    private Settings settings; // Global settings
 
-    private Screen selectedMenu = Screen.Play;
-    private Screen previousMenu;
-    [SerializeField] GameObject[] menus;
+    [SerializeField] private string titleSceneName; // For scene loading
+
+    [SerializeField] private GameObject fadeTransition;
+    private Animator fadeAnimator;
+    [SerializeField] private GameObject menuTransition; // Animation to slide up from the bottom of the screen
+    private bool currentlyTransitioning = false;
+    private Animator menuAnimator;
+    
+    private Screen selectedMenu;
+    [SerializeField] GameObject[] menus; // Stores settings and inventory menus
     private GameObject settingsMenu;
     private GameObject inventory;
 
     [SerializeField] private GameObject healthMask;
-    [SerializeField] private float[] healthMaskRange = new float[2];
+    [SerializeField] private float[] healthMaskRange = new float[2]; // Trial-and-error range to make the health bars look right
     [SerializeField] private GameObject temperatureMask;
     [SerializeField] private float[] temperatureMaskRange = new float[2];
     [SerializeField] private GameObject timeMask;
@@ -41,10 +42,16 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
+        // Attach the main camera to the canvas to view all of the UI stuff
+        try { gameObject.GetComponent<Canvas>().worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>(); }
+        catch { Debug.Log("A GameObject tagged 'MainCamera' with a Camera component is required to view the canvas animations!"); }
+        
+        // Locate the animators and settings Game Objects
         fadeAnimator = fadeTransition.GetComponent<Animator>();
         menuAnimator = menuTransition.GetComponent<Animator>();
         settings = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
 
+        // Add the menus from the inspector fields if they are valid
         for (int i = 0; i < menus.Length; i++)
         {
             menus[i].SetActive(false);
@@ -59,66 +66,44 @@ public class GameUI : MonoBehaviour
             }
         }
 
+        // Start the scene by fading from black
         fadeAnimator.Play("FadeOut");
         fadeTransition.SetActive(false);
     }
 
+    // Check for keyboard shortcuts every frame in Update()
     void Update()
     {
-        fadeAnimator.speed = settings.animationSpeed;
-
         if (Input.GetKeyDown(KeyCode.Tab) && !currentlyTransitioning)
         {
-            Debug.Log("TAB" + selectedMenu);
             if (selectedMenu == Screen.Play) Inventory();
             else if (selectedMenu == Screen.Inventory) Back();
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && !currentlyTransitioning)
+        {
+            if (selectedMenu == Screen.Play) Settings();
+            else if (selectedMenu == Screen.Inventory) Back();
+            else if (selectedMenu == Screen.Settings) Back();
+        }
     }
 
-    public void SetHealthUI(float percent)
-    {
-        healthMask.GetComponent<RectMask2D>().padding = new Vector4(healthMask.GetComponent<RectMask2D>().padding.x, healthMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (healthMaskRange[1] - healthMaskRange[0]) + healthMaskRange[0], healthMask.GetComponent<RectMask2D>().padding.w);
-    }
+    // Set the values of UI Bars, ranging from 0-100%
+    public void SetHealthUI(float percent) { healthMask.GetComponent<RectMask2D>().padding = new Vector4(healthMask.GetComponent<RectMask2D>().padding.x, healthMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (healthMaskRange[1] - healthMaskRange[0]) + healthMaskRange[0], healthMask.GetComponent<RectMask2D>().padding.w); }
+    public void SetTemperatureUI(float percent) { temperatureMask.GetComponent<RectMask2D>().padding = new Vector4(temperatureMask.GetComponent<RectMask2D>().padding.x, temperatureMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (temperatureMaskRange[1] - temperatureMaskRange[0]) + temperatureMaskRange[0], temperatureMask.GetComponent<RectMask2D>().padding.w); }
+    public void SetTimeUI(float percent) { timeMask.GetComponent<RectMask2D>().padding = new Vector4(timeMask.GetComponent<RectMask2D>().padding.x, timeMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (timeMaskRange[1] - timeMaskRange[0]) + timeMaskRange[0], timeMask.GetComponent<RectMask2D>().padding.w); }
+    
+    // Select a different menu/scene
+    public void Title() { selectedMenu = Screen.Title; StartCoroutine(Transition()); }
+    public void Settings() { selectedMenu = Screen.Settings; StartCoroutine(Transition()); }
+    public void Inventory() { selectedMenu = Screen.Inventory; StartCoroutine(Transition()); }
+    public void Back() { selectedMenu = Screen.Play; StartCoroutine(Transition()); }
 
-    public void SetTemperatureUI(float percent)
-    {
-        temperatureMask.GetComponent<RectMask2D>().padding = new Vector4(temperatureMask.GetComponent<RectMask2D>().padding.x, temperatureMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (temperatureMaskRange[1] - temperatureMaskRange[0]) + temperatureMaskRange[0], temperatureMask.GetComponent<RectMask2D>().padding.w);
-    }
-
-    public void SetTimeUI(float percent)
-    {
-        timeMask.GetComponent<RectMask2D>().padding = new Vector4(timeMask.GetComponent<RectMask2D>().padding.x, timeMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (timeMaskRange[1] - timeMaskRange[0]) + timeMaskRange[0], timeMask.GetComponent<RectMask2D>().padding.w);
-    }
-
-    public void Title()
-    {
-        previousMenu = selectedMenu;
-        selectedMenu = Screen.Title;
-        StartCoroutine(Transition());
-    }
-
-    public void Settings()
-    {
-        previousMenu = selectedMenu;
-        selectedMenu = Screen.Settings;
-        StartCoroutine(Transition());
-    }
-
-    public void Inventory()
-    {
-        previousMenu = selectedMenu;
-        selectedMenu = Screen.Inventory;
-        StartCoroutine(Transition());
-    }
-
-    public void Back() // Go back to the Title or Play screen from the UI
-    {
-        selectedMenu = Screen.Play;
-        StartCoroutine(Transition());
-    }
-
+    // Animated Transition between scenes/menus
     IEnumerator Transition()
     {
+        fadeAnimator.speed = settings.animationSpeed;
+        menuAnimator.speed = settings.animationSpeed;
+
         currentlyTransitioning = true;
         switch (selectedMenu)
         {
@@ -133,10 +118,7 @@ public class GameUI : MonoBehaviour
                 // Close UI Interfaces
                 menuAnimator.Play("MenuHide");
                 yield return new WaitForSeconds(1f / settings.animationSpeed);
-                //for (int i = 0; i < menus.Length; i++)
-                //{
-                //    menus[i].SetActive(false);
-                //}
+                for (int i = 0; i < menus.Length; i++) { menus[i].SetActive(false); }
                 break;
 
             case Screen.Settings:
@@ -160,4 +142,10 @@ public class GameUI : MonoBehaviour
         }
         currentlyTransitioning = false;
     }
+
+    // Functions to change the global settings
+    public void SetAnimationSpeed(float spd) { settings.SetAnimationSpeed(spd); }
+    public void SetMasterVolume(float vol) { settings.SetMasterVolume(vol); }
+    public void SetMusVolume(float vol) { settings.SetMusVolume(vol); }
+    public void SetSfxVolume(float vol) { settings.SetSfxVolume(vol); }
 }
