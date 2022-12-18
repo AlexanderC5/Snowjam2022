@@ -539,9 +539,9 @@ public void Fish()
     
     private IEnumerator Alert()
     {
-        SetState(animator, "alert");
+        SetState(alert, "alert");
         yield return new WaitForSeconds(1);
-        animator.SetBool("alert", false);
+        alert.SetBool("alert", false);
     }
 
     private void ResetState(Animator animator)
