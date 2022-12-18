@@ -369,7 +369,7 @@ public class PlayerController : MonoBehaviour
     public bool Craft(CraftableItem item)
     {
         bool success = true;
-        Dictionary<string, int> tempInv = inv;
+        Dictionary<string, int> tempInv = new Dictionary<string, int>(inv); // Copy dictionary
 
         foreach (string material in item.requiredMaterials)
         {

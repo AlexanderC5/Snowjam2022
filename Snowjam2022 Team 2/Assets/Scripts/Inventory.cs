@@ -68,6 +68,7 @@ public class Inventory : MonoBehaviour
                     itemSlots[itemSlot].GetComponentInChildren<TMP_Text>().text = "" + item.Value;
 
                     itemSlot++;
+                    if (itemSlot >= itemSlots.Length) return; // Inventory is full, don't display any more!
                 }
             }
         }
@@ -88,16 +89,34 @@ public class Inventory : MonoBehaviour
 
         // Required materials window
         List<string> materialsList = craftList[craftSlot].requiredMaterials;
-        craftDescription.text = materialsList[0];
+        craftDescription.text = "";
+        switch (craftList[craftSlot].itemType)
+        {
+            case CraftableItem.ItemType.Material:
+                craftDescription.text += "Material. Usable for future crafting.";
+                break;
+            case CraftableItem.ItemType.Tool:
+                craftDescription.text += "Tool. Can be wielded using number hotkeys.";
+                break;
+            case CraftableItem.ItemType.Upgrade:
+                craftDescription.text += "Uprgrade. Applied immediately.";
+                break;
+            case CraftableItem.ItemType.Consumeable:
+                craftDescription.text += "Consumable. Used immediately upon crafting.";
+                break;
+        }
+        craftDescription.text += "\n\n<b>Required Materials:</b> \n" + materialsList[0];
         for (int i = 1; i < materialsList.Count; i++)
         {
             craftDescription.text += ", " + materialsList[i];
         }
-        craftDescription.text += "\n\n" + craftStatus; // Crafting status (to mark if crafting failed)
+        craftDescription.text += "\n" + craftStatus; // Crafting status (to mark if crafting failed)
     }
 
     public void ScrollCraftingWindow(string dir)
     {
+        craftStatus = "";
+
         if (dir.ToLower() == "left")
         {
             if (craftSlot > 0)
