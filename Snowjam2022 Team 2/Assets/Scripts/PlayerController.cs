@@ -48,11 +48,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
-
     //lighting
     [SerializeField] GameObject torchLight;
     [SerializeField] GameObject baseLight;
-
 
     //attacking
     [SerializeField] private Transform attackPoint;
@@ -62,14 +60,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float attackCooldown = 0.5f;
     private float attackCooldownTimer;
 
-
     //fishing
     private bool catchChance;
     private bool fishing;
 
     //alert
     [SerializeField] GameObject alert;
-
 
     //upgrade
     [SerializeField] GameObject fire;
@@ -97,8 +93,6 @@ public class PlayerController : MonoBehaviour
 
         heatLevel = 0; //maybe change
         inv["Torch"] = 0; //this one needs to be here 
-        //inv["Wood"] = 0; 
-        //inv["Stick"] = 0;
 
         //numbers for testing, mostly
         inv["Wood"] = 3;
@@ -108,7 +102,8 @@ public class PlayerController : MonoBehaviour
         inv["Herbs"] = 5;
 
         rb = this.GetComponent<Rigidbody2D>();
-        animator = this.GetComponent<Animator>();
+        //animator = this.GetComponent<Animator>();
+        animator = this.GetComponentsInChildren<Animator>()[0];
 
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
