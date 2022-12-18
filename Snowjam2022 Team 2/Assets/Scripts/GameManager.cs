@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     // Player
     private PlayerController playerController;
     private bool isGameOver;
+    [SerializeField] bool disableGameOver = false; // For easier testing of other features
 
     // Enemies
     [SerializeField] private GameObject basicEnemy;
@@ -191,5 +192,5 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsGameOver() { return isGameOver; }
-    public void SetGameOver(bool b) { isGameOver = b; }
+    public void SetGameOver(bool b) { if (!disableGameOver) isGameOver = b; }
 }
