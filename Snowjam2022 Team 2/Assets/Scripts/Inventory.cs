@@ -148,7 +148,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            craftStatus = "<color=red>Crafting failed! Not enough resources.</color>";
+            craftStatus = "<color=red>Crafting failed!</color>";
         }
     }
 }
