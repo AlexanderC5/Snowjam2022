@@ -66,8 +66,14 @@ public class GameManager : MonoBehaviour
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
+
     }
 
+    private void Start()
+    {
+        audioManager.StopMusic();
+        audioManager.PlayMusic("OST_Day1");
+    }
     // Update is called once per frame
     void Update()
     {
