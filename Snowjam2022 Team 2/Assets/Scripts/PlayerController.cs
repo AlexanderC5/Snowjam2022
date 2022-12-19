@@ -91,11 +91,15 @@ public class PlayerController : MonoBehaviour
     //frozen player
     [SerializeField] GameObject frozenPlayer;
 
+    //sound
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
 
     //changed to awake for efficiency
     void Awake()
     {
+        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
         fireUpgraded = false;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
@@ -126,6 +130,11 @@ public class PlayerController : MonoBehaviour
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         equippedToolSprite = GameObject.FindGameObjectWithTag("EquippedTool").GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(walk());
     }
 
     // Update is called once per frame
@@ -620,7 +629,17 @@ public void Fish()
         animator.SetBool(state, true);
     }
     
-
+    IEnumerator walk()
+    {
+        while(true)
+        {
+            if(Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
+            {
+                audioManager.PlaySFX("Footsteps2.1");
+                yield return new WaitForSeconds(0.75f);
+            }
+        }
+    }
 
 }
 
