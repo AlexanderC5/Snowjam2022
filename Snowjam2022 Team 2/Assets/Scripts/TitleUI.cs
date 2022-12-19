@@ -152,4 +152,11 @@ public class TitleUI : MonoBehaviour
 
         fadeTransition.SetActive(false);
     }
+
+
+    // Functions to change the global settings
+    public void SetAnimationSpeed(float spd) { settings.SetAnimationSpeed(spd); }
+    public void SetMasterVolume(float vol) { settings.SetMasterVolume(vol); }
+    public void SetMusVolume(float vol) { settings.SetMusVolume(vol); }
+    public void SetSfxVolume(float vol) { settings.SetSfxVolume(vol); }
 }

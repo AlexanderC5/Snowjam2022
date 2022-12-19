@@ -9,9 +9,9 @@ public class Settings : MonoBehaviour
 {
     public static Settings Instance;
 
-    public float masterVolume = 1f;
-    public float sfxVolume = 1f;
-    public float musVolume = 1f;
+    public float masterVolume = 0.5f;
+    public float sfxVolume = 0.5f;
+    public float musVolume = 0.5f;
     public float animationSpeed = 1.5f;
     public int difficulty = 1;
 
@@ -38,12 +38,17 @@ public class Settings : MonoBehaviour
 
     private void Start()
     {
+        SetMasterVolume(masterVolume);
+        SetMusVolume(musVolume);
+        SetSfxVolume(sfxVolume);
+
         audioManager.PlayMusic("OST_Title");
     }
 
     public void SetAnimationSpeed(float spd) { animationSpeed = spd; }
     public void SetMasterVolume(float vol) { masterVolume = vol;
         audioManager.SetLevelHelper(vol, "Master");
+        Debug.Log("Master vol changed");
     }
     public void SetMusVolume(float vol) { musVolume = vol;
         audioManager.SetLevelHelper(vol, "Music");
