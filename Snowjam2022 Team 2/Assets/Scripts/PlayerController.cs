@@ -51,7 +51,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject baseLight;
 
     //attacking
+    [SerializeField] private float attackDistance = 2.5f;
+    [SerializeField] private float attackScale = 1.3f;
     [SerializeField] private Transform attackPoint;
+    private Animator attackAnimator;
     [SerializeField] private float attackRange;
     [SerializeField] private LayerMask enemyLayers;
     [SerializeField] private int attackDamage;
@@ -59,7 +62,8 @@ public class PlayerController : MonoBehaviour
     private float attackCooldownTimer;
 
     private Vector2 playerDirection;
-    [SerializeField] private float toolDistance = 2;
+    float playerDirectionAngle;
+    [SerializeField] private float toolDistance = 2f;
 
     //tools
     [SerializeField] private GameObject toolPoint;
@@ -116,7 +120,8 @@ public class PlayerController : MonoBehaviour
 
         rb = this.GetComponent<Rigidbody2D>();
         //animator = this.GetComponent<Animator>();
-        animator = this.GetComponentsInChildren<Animator>()[0];
+        animator = this.GetComponentsInChildren<Animator>()[0]; // Make sure this grabs the player sprite animator!!!
+        attackAnimator = attackPoint.gameObject.GetComponentInChildren<Animator>();
 
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
@@ -137,6 +142,8 @@ public class PlayerController : MonoBehaviour
         Vector2 playerPos = new Vector2(this.transform.position.x, this.transform.position.y);
         playerDirection = (worldCursorPos - playerPos);
         playerDirection = playerDirection / playerDirection.magnitude; // Convert to unit vector
+        playerDirectionAngle = Vector2.Angle(new Vector2(1f,0f), playerDirection);
+        if (playerDirection.y < 0) playerDirectionAngle *= -1;
 
         // Movement
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -198,7 +205,10 @@ public class PlayerController : MonoBehaviour
 
         // Tool and attack position, defined by the cursor
         toolPoint.transform.position = transform.position + new Vector3(playerDirection.x, playerDirection.y) * toolDistance;
-        attackPoint.transform.position = transform.position + new Vector3(playerDirection.x, playerDirection.y) * toolDistance;
+        attackPoint.transform.position = transform.position + new Vector3(playerDirection.x, playerDirection.y) * attackDistance;
+        //attackPoint.forward = playerDirection - playerPos;
+        //attackPoint.transform.LookAt(transform);
+        attackPoint.transform.localEulerAngles = new Vector3(attackPoint.transform.localEulerAngles.x, attackPoint.transform.localEulerAngles.y, playerDirectionAngle);
     }
 
     //Move player
@@ -410,8 +420,9 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
-        DontDestroyOnLoad(Instantiate<GameObject>(frozenPlayer, gameObject.transform)); //spawn dead player
+        DontDestroyOnLoad(Instantiate(frozenPlayer, gameObject.transform.position, gameObject.transform.rotation)); //spawn dead player
         gameManager.SetGameOver(true);
+        Destroy(gameObject);
         Debug.Log("You Died. RIP.");
     }
 
@@ -523,8 +534,14 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-        
+        if (fishing) return;
+
+        attackAnimator.Play("Attack");
+        attackAnimator.gameObject.transform.localScale = new Vector3(attackScale, attackScale, attackScale);
+
+        //Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCapsuleAll(attackPoint.position, new Vector2(attackScale*3, attackScale*5), CapsuleDirection2D.Vertical, 0f, enemyLayers);
+
         foreach(Collider2D enemy in hitEnemies)
         {
             /*
