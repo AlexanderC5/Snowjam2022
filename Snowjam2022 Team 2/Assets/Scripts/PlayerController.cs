@@ -91,11 +91,16 @@ public class PlayerController : MonoBehaviour
     //frozen player
     [SerializeField] GameObject frozenPlayer;
 
+
+    //sound
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
 
     //changed to awake for efficiency
     void Awake()
     {
+        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
         fireUpgraded = false;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
@@ -126,6 +131,7 @@ public class PlayerController : MonoBehaviour
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         equippedToolSprite = GameObject.FindGameObjectWithTag("EquippedTool").GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
@@ -403,6 +409,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (invulnTimer > invulnDuration)
             {
+                audioManager.PlaySFX("Health_Lose");
                 isInvulnerable = false;
                 invulnTimer = 0f;
             }
@@ -420,6 +427,7 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
+        audioManager.PlaySFX("DeathFreeze");
         DontDestroyOnLoad(Instantiate(frozenPlayer, gameObject.transform.position, gameObject.transform.rotation)); //spawn dead player
         gameManager.SetGameOver(true);
         Destroy(gameObject);
@@ -504,6 +512,7 @@ public class PlayerController : MonoBehaviour
                 health += 20;
                 if(health > 100) //hardcoded max health :(
                     health = 100;
+                audioManager.PlaySFX("Health_Gain");
             }
            
             else if (tempInv.ContainsKey(item.itemName))
@@ -536,12 +545,17 @@ public class PlayerController : MonoBehaviour
     {
         if (fishing) return;
 
+        audioManager.PlaySFX("Attack_Swing");
         attackAnimator.Play("Attack");
         attackAnimator.gameObject.transform.localScale = new Vector3(attackScale, attackScale, attackScale);
 
         //Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         Collider2D[] hitEnemies = Physics2D.OverlapCapsuleAll(attackPoint.position, new Vector2(attackScale*3, attackScale*5), CapsuleDirection2D.Vertical, 0f, enemyLayers);
 
+        if(hitEnemies.Length > 0)
+        {
+            audioManager.PlaySFX("Ice_Break2");
+        }
         foreach(Collider2D enemy in hitEnemies)
         {
             /*
@@ -578,6 +592,7 @@ public void Fish()
 
     private IEnumerator StartFish()
     {
+        audioManager.PlaySFX("Interact_FishingCast");
         SetToolSprite("Fishing Rod");
         alert.SetBool("fishing", true);
         alert.SetBool("fish", false);
@@ -587,6 +602,7 @@ public void Fish()
             alert.SetBool("alert", true);
             catchChance = true;
             Debug.Log("FISH TIME");
+            audioManager.PlaySFX("Interact_FishingBite");
             //StartCoroutine(Alert());
             yield return new WaitForSeconds(1);
             catchChance = false;
@@ -619,8 +635,19 @@ public void Fish()
         ResetState(animator);
         animator.SetBool(state, true);
     }
-    
 
+    /*
+    IEnumerator walk()
+    {
+        while (true)
+        {
+            if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
+            {
+                audioManager.PlaySFX("Footsteps2.1");
+                yield return new WaitForSeconds(0.75f);
+            }
+        }
+    }*/
 
 }
 
