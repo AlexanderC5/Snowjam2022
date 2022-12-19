@@ -225,6 +225,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool GetDay() { return day; }
+
     public bool IsGameOver() { return isGameOver; }
     public void SetGameOver(bool b) { if (!disableGameOver) isGameOver = b; }
 }

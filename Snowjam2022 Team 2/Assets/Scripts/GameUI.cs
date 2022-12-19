@@ -42,6 +42,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private float[] healthMaskRange = new float[2]; // Trial-and-error range to make the health bars look right
     [SerializeField] private GameObject temperatureMask;
     [SerializeField] private float[] temperatureMaskRange = new float[2];
+    private GameObject timeUIBar;
     [SerializeField] private GameObject timeMask;
     [SerializeField] private float[] timeMaskRange = new float[2];
 
@@ -73,6 +74,7 @@ public class GameUI : MonoBehaviour
         }
 
         gameOverScreen.SetActive(false);
+        timeUIBar = timeMask.gameObject.transform.parent.gameObject;
 
         // Start the scene by fading from black
         fadeAnimator.Play("FadeOut");
@@ -96,12 +98,18 @@ public class GameUI : MonoBehaviour
 
         // Check Game over
         if (gameManager.IsGameOver()) { GameOver(); }
+
+        if (gameManager.GetDay()) { SetTimeUI(false); }
+        else { SetTimeUI(true); }
     }
 
     // Set the values of UI Bars, ranging from 0-100%
     public void SetHealthUI(float percent) { healthMask.GetComponent<RectMask2D>().padding = new Vector4(healthMask.GetComponent<RectMask2D>().padding.x, healthMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (healthMaskRange[1] - healthMaskRange[0]) + healthMaskRange[0], healthMask.GetComponent<RectMask2D>().padding.w); }
     public void SetTemperatureUI(float percent) { temperatureMask.GetComponent<RectMask2D>().padding = new Vector4(temperatureMask.GetComponent<RectMask2D>().padding.x, temperatureMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (temperatureMaskRange[1] - temperatureMaskRange[0]) + temperatureMaskRange[0], temperatureMask.GetComponent<RectMask2D>().padding.w); }
-    public void SetTimeUI(float percent) { timeMask.GetComponent<RectMask2D>().padding = new Vector4(timeMask.GetComponent<RectMask2D>().padding.x, timeMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (timeMaskRange[1] - timeMaskRange[0]) + timeMaskRange[0], timeMask.GetComponent<RectMask2D>().padding.w); }
+    public void SetTimeUI(float percent) { if (timeUIBar.activeSelf) timeMask.GetComponent<RectMask2D>().padding = new Vector4(timeMask.GetComponent<RectMask2D>().padding.x, timeMask.GetComponent<RectMask2D>().padding.y, percent / 100f * (timeMaskRange[1] - timeMaskRange[0]) + timeMaskRange[0], timeMask.GetComponent<RectMask2D>().padding.w); }
+
+    public void SetTimeUI(bool active) { timeUIBar.SetActive(active); }
+
     
     // Select a different menu/scene
     public void Title() { selectedMenu = Screen.Title; StartCoroutine(Transition()); }
