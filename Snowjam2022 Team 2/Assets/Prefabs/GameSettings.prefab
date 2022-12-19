@@ -66,13 +66,13 @@ MonoBehaviour:
   music:
   - source: {fileID: 0}
     clip: {fileID: 8300000, guid: 8275f2d0083e3b54ba3061c4365786f5, type: 3}
-    loop: 0
+    loop: 1
   - source: {fileID: 0}
     clip: {fileID: 8300000, guid: 9a02c46a8d3cf334e915f86e3728d7ae, type: 3}
-    loop: 0
+    loop: 1
   - source: {fileID: 0}
     clip: {fileID: 8300000, guid: 5f6ef6f23aa21dc4fb03d1a9d72b9f76, type: 3}
-    loop: 0
+    loop: 1
   sfx:
   - source: {fileID: 0}
     clip: {fileID: 8300000, guid: 288999a87d8284446a23b1cb6d5726c3, type: 3}

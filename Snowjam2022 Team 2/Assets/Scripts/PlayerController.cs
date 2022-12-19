@@ -95,11 +95,14 @@ public class PlayerController : MonoBehaviour
     //sound
     private AudioManager audioManager;
 
+
+    bool died;
     // Start is called before the first frame update
 
     //changed to awake for efficiency
     void Awake()
     {
+        died = false;
         audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
         fireUpgraded = false;
         torchLight.SetActive(false);
@@ -427,7 +430,12 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
-        audioManager.PlaySFX("DeathFreeze");
+        if(!died)
+        {
+            audioManager.PlaySFX("DeathFreeze");
+            died = true;
+        }
+        
         DontDestroyOnLoad(Instantiate(frozenPlayer, gameObject.transform.position, gameObject.transform.rotation)); //spawn dead player
         gameManager.SetGameOver(true);
         Destroy(gameObject);

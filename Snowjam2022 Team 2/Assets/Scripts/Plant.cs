@@ -27,9 +27,11 @@ public class Plant : Interactable
             if(random < 9)
             {
                 playerController.AddItem("Plant Matter");
+                playerController.AddItem("Plant Matter");
             }
             else
             {
+                playerController.AddItem("Plant Matter");
                 playerController.AddItem("Herbs"); //% chance to get herbs
             }
             Destroy(gameObject);
