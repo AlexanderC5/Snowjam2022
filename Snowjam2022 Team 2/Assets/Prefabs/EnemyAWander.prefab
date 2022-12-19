@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37319a6bb1c1cbc49ae84c2391c3139d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  aggroRange: 15
+  moveSpeed: 3
+  aggroRange: 20
   roamMaxDuration: 4
   idleMaxDuration: 7
   damage: 3
@@ -362,4 +362,4 @@ MonoBehaviour:
   - {x: -0.22532845, y: -1.0734935, z: 0}
   m_ShapePathHash: -465807171
   m_Mesh: {fileID: 0}
-  m_InstanceId: 262622
+  m_InstanceId: 80498

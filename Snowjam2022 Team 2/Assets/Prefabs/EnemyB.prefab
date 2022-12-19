@@ -285,10 +285,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37319a6bb1c1cbc49ae84c2391c3139d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  aggroRange: 15
-  roamMaxDuration: 4
-  idleMaxDuration: 7
+  moveSpeed: 3
+  aggroRange: 70
+  roamMaxDuration: 8
+  idleMaxDuration: 2
   damage: 3
   health: 10
   stunLength: 0.25

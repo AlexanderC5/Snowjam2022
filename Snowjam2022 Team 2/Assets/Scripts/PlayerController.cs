@@ -117,11 +117,11 @@ public class PlayerController : MonoBehaviour
         inv["Torch"] = 0; //this one needs to be here 
 
         //numbers for testing, mostly
-        inv["Wood"] = 3;
-        inv["Torch"] = 5;
-        inv["Stick"] = 2;
-        inv["Plant Matter"] = 5;
-        inv["Herbs"] = 5;
+        //inv["Wood"] = 3;
+        inv["Torch"] = 1;
+        //inv["Stick"] = 2;
+        //inv["Plant Matter"] = 5;
+        //inv["Herbs"] = 5;
 
         rb = this.GetComponent<Rigidbody2D>();
         //animator = this.GetComponent<Animator>();
