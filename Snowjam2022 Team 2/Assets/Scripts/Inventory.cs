@@ -8,6 +8,7 @@ using TMPro;
 public class Inventory : MonoBehaviour
 {
     private PlayerController player;
+    private AudioManager audioManager;
 
     [SerializeField] Sprite nullItemSprite;
 
@@ -27,6 +28,7 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        audioManager = AudioManager.manager;
 
         itemSlots = GameObject.FindGameObjectsWithTag("InventoryItems");
         craftSlots = GameObject.FindGameObjectsWithTag("CraftingItems");
@@ -143,10 +145,12 @@ public class Inventory : MonoBehaviour
 
         if (success)
         {
+            audioManager.PlaySFX("UI_CraftSuccess");
             craftStatus = "";
         }
         else
         {
+            audioManager.PlaySFX("UI_CraftFail");
             craftStatus = "<color=red>Crafting failed!</color>";
         }
     }
