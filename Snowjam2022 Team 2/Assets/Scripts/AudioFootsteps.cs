@@ -8,7 +8,7 @@ public class AudioFootsteps : MonoBehaviour
 
     void Start()
     {
-        audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+        audioManager = AudioManager.manager;
     }
 
     public void PlayRandomFootsteps()
