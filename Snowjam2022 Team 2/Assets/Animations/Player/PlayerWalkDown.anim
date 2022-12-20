@@ -346,9 +346,9 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.75
-    functionName: PlayRandomSFX()
-    data: Footsteps
-    objectReferenceParameter: {fileID: 11500000, guid: 4b4800e2a3f26f143ae8082c619c0e10, type: 3}
+    functionName: PlayRandomFootsteps
+    data: 
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
