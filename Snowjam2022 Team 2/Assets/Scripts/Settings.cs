@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// These variables persist for as long as the game is running, regardless of scene changing
@@ -9,10 +10,10 @@ public class Settings : MonoBehaviour
 {
     public static Settings Instance;
 
-    public float masterVolume = 1f;
-    public float sfxVolume = 1f;
-    public float musVolume = 1f;
-    public float animationSpeed = 1.5f;
+    public float volumeMaster;
+    public float volumeSFX;
+    public float volumeMusic;
+    public float animationSpeed;
     public int difficulty = 1;
 
     // public float[] zones = { 300f, 600f, 900f }; // Enemy spawning zones (DROPPED IDEA)
@@ -23,6 +24,8 @@ public class Settings : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        audioManager = AudioManager.manager; 
+
         if (Instance != null) // Remove extra instances
         {
             Destroy(gameObject);
@@ -31,25 +34,17 @@ public class Settings : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        audioManager = GetComponent<AudioManager>();
         
     }
 
     private void Start()
     {
-        audioManager.PlayMusic("OST_Title");
+        
     }
 
     public void SetAnimationSpeed(float spd) { animationSpeed = spd; }
-    public void SetMasterVolume(float vol) { masterVolume = vol;
-        audioManager.SetLevelHelper(vol, "Master");
-    }
-    public void SetMusVolume(float vol) { musVolume = vol;
-        audioManager.SetLevelHelper(vol, "Music");
-    }
-    public void SetSfxVolume(float vol) { sfxVolume = vol;
-        audioManager.SetLevelHelper(vol, "SFX");
-    }
+    public void SetVolumeMaster(float vol) { volumeMaster = vol; AudioManager.manager.UpdateVolume(); }
+    public void SetVolumeMusic(float vol) { volumeMusic = vol; AudioManager.manager.UpdateVolume(); }
+    public void SetVolumeSFX(float vol) { volumeSFX = vol; AudioManager.manager.UpdateVolume(); }
     public void SetEnemyDifficulty(float dif) { difficulty = (int) dif; }
 }

@@ -23,7 +23,7 @@ public class FrozenObject : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
+        audioManager = AudioManager.manager; 
         frozenObject.SetActive(false);
         stage = 2; //may need to change
         canMelt = false;

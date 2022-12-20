@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class TitleUI : MonoBehaviour
     [SerializeField] private GameObject fadeTransition;
     private Animator fadeAnimator;
     private Settings settings;
+    private AudioManager audioManager;
 
     private Screen selectedMenu;
     private List<Screen> previousMenus = new List<Screen>();
@@ -36,6 +38,7 @@ public class TitleUI : MonoBehaviour
     {
         fadeAnimator = fadeTransition.GetComponent<Animator>();
         settings = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
+        audioManager = AudioManager.manager;
 
         StartCoroutine(FadeButtonPressed("in"));
         previousMenus.Add(selectedMenu);
@@ -69,6 +72,7 @@ public class TitleUI : MonoBehaviour
     {
         previousMenus.Clear();
         selectedMenu = Screen.Play;
+        audioManager.PlaySFX("UI_Play");
         StartCoroutine(FadeButtonPressed("both"));
     }
 
@@ -76,32 +80,38 @@ public class TitleUI : MonoBehaviour
     {
         previousMenus.Add(selectedMenu);
         selectedMenu = Screen.Help;
+        audioManager.PlaySFX("UI_MenuButton");
         StartCoroutine(FadeButtonPressed("both"));
     }
     public void Credits()
     {
         previousMenus.Add(selectedMenu);
         selectedMenu = Screen.Credits;
+        audioManager.PlaySFX("UI_MenuButton");
         StartCoroutine(FadeButtonPressed("both"));
     }
-    public void Settings()
+    public void SettingsButton()
     {
         previousMenus.Add(selectedMenu);
         selectedMenu = Screen.Settings;
+        audioManager.PlaySFX("UI_MenuButton");
         StartCoroutine(FadeButtonPressed("both"));
+
     }
     public void Quit()
     {
         previousMenus.Clear();
         selectedMenu = Screen.Quit;
+        audioManager.PlaySFX("UI_MenuButton");
         StartCoroutine(FadeButtonPressed("both"));
     }
 
     public void Back() // Go back to the Title screen from the UI
     {
+        audioManager.PlaySFX("UI_Cancel");
         selectedMenu = previousMenus[previousMenus.Count - 1];
         previousMenus.RemoveAt(previousMenus.Count - 1);
-
+        
         StartCoroutine(FadeButtonPressed("both"));
     }
 
@@ -136,6 +146,30 @@ public class TitleUI : MonoBehaviour
                     break;
                 case Screen.Settings:
                     settingsMenu.SetActive(true);
+                    Slider[] sliders = FindObjectsOfType<Slider>();
+                    foreach (Slider slider in sliders)
+                    {
+                        slider.onValueChanged.RemoveAllListeners();
+                        switch (slider.transform.parent.name)
+                        {
+                            case "Option1": //master
+                                slider.value = Settings.Instance.volumeMaster;
+                                slider.onValueChanged.AddListener(Settings.Instance.SetVolumeMaster);
+                                break;
+                            case "Option2": //music
+                                slider.value = Settings.Instance.volumeMusic;
+                                slider.onValueChanged.AddListener(Settings.Instance.SetVolumeMusic);
+                                break;
+                            case "Option3": //sfx
+                                slider.value = Settings.Instance.volumeSFX;
+                                slider.onValueChanged.AddListener(Settings.Instance.SetVolumeSFX);
+                                break;
+                            case "Option4": //animspeed
+                                slider.value = Settings.Instance.animationSpeed;
+                                slider.onValueChanged.AddListener(Settings.Instance.SetAnimationSpeed);
+                                break;
+                        }
+                    }
                     break;
                 case Screen.Quit:
                     Debug.Log("Game Quit by user");

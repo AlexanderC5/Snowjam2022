@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         died = false;
-        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
+        audioManager = AudioManager.manager; 
         fireUpgraded = false;
         torchLight.SetActive(false);
         baseLight.SetActive(true);
@@ -562,7 +562,7 @@ public class PlayerController : MonoBehaviour
 
         if(hitEnemies.Length > 0)
         {
-            audioManager.PlaySFX("Ice_Break2");
+            audioManager.PlaySFX("Attack_Bare");
         }
         foreach(Collider2D enemy in hitEnemies)
         {

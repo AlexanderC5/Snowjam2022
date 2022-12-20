@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float aggroRange = 5f;
     private LayerMask playerMask;
     private Rigidbody2D rb;
+    private AudioManager audioManager;
     private Transform target;
 
     private Vector2 moveDirection;
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
         stunTimer = 0;
         stunned = false;
         rb = GetComponent<Rigidbody2D>();
+        audioManager = AudioManager.manager;
         target = FindObjectOfType<PlayerController>().transform; //maybe have an aggro radius?
         playerMask = LayerMask.GetMask("Player");
         InitiateRoaming();
@@ -194,6 +196,7 @@ public class Enemy : MonoBehaviour
 
     private void Death()
     {
+        audioManager.PlayRandomSFX("Ice_Break");
         Destroy(gameObject);
         //Drops?
     }

@@ -22,6 +22,7 @@ public class GameUI : MonoBehaviour
     // Variables
     private Settings settings; // Global settings
     private GameManager gameManager; // Game manager to check game over
+    private AudioManager audioManager;
 
     [SerializeField] private string titleSceneName; // For scene loading
 
@@ -57,6 +58,7 @@ public class GameUI : MonoBehaviour
         menuAnimator = menuTransition.GetComponent<Animator>();
         settings = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        audioManager = AudioManager.manager; 
 
         // Add the menus from the inspector fields if they are valid
         for (int i = 0; i < menus.Length; i++)
@@ -79,6 +81,33 @@ public class GameUI : MonoBehaviour
         // Start the scene by fading from black
         fadeAnimator.Play("FadeOut");
         fadeTransition.SetActive(false);
+
+        // Initialize volume/animation slider listeners
+        Slider[] sliders = Resources.FindObjectsOfTypeAll<Slider>();
+        foreach (Slider slider in sliders)
+        {
+            if (slider.transform.parent.parent.name != "Settings") continue;
+            slider.onValueChanged.RemoveAllListeners();
+            switch (slider.transform.parent.name)
+            {
+                case "Option1": //master
+                    slider.value = Settings.Instance.volumeMaster;
+                    slider.onValueChanged.AddListener(Settings.Instance.SetVolumeMaster);
+                    break;
+                case "Option2": //music
+                    slider.value = Settings.Instance.volumeMusic;
+                    slider.onValueChanged.AddListener(Settings.Instance.SetVolumeMusic);
+                    break;
+                case "Option3": //sfx
+                    slider.value = Settings.Instance.volumeSFX;
+                    slider.onValueChanged.AddListener(Settings.Instance.SetVolumeSFX);
+                    break;
+                case "Option4": //animspeed
+                    slider.value = Settings.Instance.animationSpeed;
+                    slider.onValueChanged.AddListener(Settings.Instance.SetAnimationSpeed);
+                    break;
+            }
+        }
     }
 
     // Check for keyboard shortcuts every frame in Update()
@@ -91,7 +120,7 @@ public class GameUI : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !currentlyTransitioning)
         {
-            if (selectedMenu == Screen.Play) Settings();
+            if (selectedMenu == Screen.Play) SettingsMenu();
             else if (selectedMenu == Screen.Inventory) Back();
             else if (selectedMenu == Screen.Settings) Back();
         }
@@ -112,10 +141,14 @@ public class GameUI : MonoBehaviour
 
     
     // Select a different menu/scene
-    public void Title() { selectedMenu = Screen.Title; StartCoroutine(Transition()); }
-    public void Settings() { selectedMenu = Screen.Settings; StartCoroutine(Transition()); }
-    public void Inventory() { selectedMenu = Screen.Inventory; StartCoroutine(Transition()); }
-    public void Back() { selectedMenu = Screen.Play; StartCoroutine(Transition()); }
+    public void Title() { 
+        selectedMenu = Screen.Title;
+        audioManager.PlaySFX("UI_MenuButton");
+        StartCoroutine(Transition());
+    }
+    public void SettingsMenu() { selectedMenu = Screen.Settings; audioManager.PlaySFX("UI_Config"); StartCoroutine(Transition()); }
+    public void Inventory() { selectedMenu = Screen.Inventory; audioManager.PlaySFX("UI_Inventory"); StartCoroutine(Transition()); }
+    public void Back() { selectedMenu = Screen.Play; audioManager.PlaySFX("UI_Cancel"); StartCoroutine(Transition()); }
     public void GameOver() { selectedMenu = Screen.GameOver; StartCoroutine(Transition()); }
     public void Restart() { selectedMenu = Screen.Restart; StartCoroutine(Transition()); }
 
@@ -176,9 +209,10 @@ public class GameUI : MonoBehaviour
         currentlyTransitioning = false;
     }
 
-    // Functions to change the global settings
+    // ALREADY EXISTS IN SETTINGS.CS
+    /* Functions to change the global settings
     public void SetAnimationSpeed(float spd) { settings.SetAnimationSpeed(spd); }
     public void SetMasterVolume(float vol) { settings.SetMasterVolume(vol); }
     public void SetMusVolume(float vol) { settings.SetMusVolume(vol); }
-    public void SetSfxVolume(float vol) { settings.SetSfxVolume(vol); }
+    public void SetSfxVolume(float vol) { settings.SetSfxVolume(vol); } */
 }

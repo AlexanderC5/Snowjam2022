@@ -20,7 +20,7 @@ public class InteractableHeat : Interactable
     // Start is called before the first frame update
     void Awake()
     {
-        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
+        audioManager = AudioManager.manager; 
         //heatSource = gameObject.GetComponent<HeatSource>(); //doesn't work due to multi-part setup for fire
         heatSource = gameObject.GetComponentInChildren<HeatSource>();
         animator = GetComponent<Animator>();

@@ -65,14 +65,13 @@ public class GameManager : MonoBehaviour
         waveNum = 1;
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
-        audioManager = GameObject.Find("GameSettings").GetComponent<AudioManager>();
+        audioManager = AudioManager.manager; 
 
     }
 
     private void Start()
     {
-        audioManager.StopMusic();
-        audioManager.PlayMusic("OST_Day1");
+
     }
     // Update is called once per frame
     void Update()
@@ -87,9 +86,8 @@ public class GameManager : MonoBehaviour
             waveTimer = 0;
             waveNum = 1;
             tempLevel += 1; //colder at night
-            audioManager.StopMusic();
             audioManager.PlaySFX("TimeChange_ToNight");
-            StartCoroutine(playMusicDelayed("OST_Night1"));
+            audioManager.CrossfadeSeq("OST_Night1", 2f);
             
         }
         if(!day && dayNightTimer >= nightLength)
@@ -108,9 +106,8 @@ public class GameManager : MonoBehaviour
             {
                 tempLevel -= 1;
             }
-            audioManager.StopMusic();
             audioManager.PlaySFX("TimeChange_ToDay");
-            StartCoroutine(playMusicDelayed("OST_Title"));
+            audioManager.CrossfadeSeq("OST_Day1", 2f);
             
 
         }
