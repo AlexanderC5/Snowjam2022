@@ -34,6 +34,7 @@ public class HeatSource : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
+            if (heatLevel > 0) AudioManager.manager.PlaySFX("Ambient_Fire");
             player.ChangeHeat(heatLevel);
             playerInRadius = true;
         }
@@ -43,6 +44,7 @@ public class HeatSource : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            AudioManager.manager.StopSFXName("Ambient_Fire");
             player.ChangeHeat(heatLevel * -1);
             playerInRadius = false;
         }

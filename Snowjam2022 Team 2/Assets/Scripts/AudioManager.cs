@@ -140,10 +140,10 @@ public class AudioManager : MonoBehaviour
         switch (sceneNew.name)
         {
             case "Title":
-                CrossfadeSeq("OST_Title", 2f);
+                CrossfadeSeq("OST_Title", 1f);
                 break;
             case "Main":
-                CrossfadeSeq("OST_Day1", 2f);
+                CrossfadeSeq("OST_Day1", 1f);
                 break;
         }
     }

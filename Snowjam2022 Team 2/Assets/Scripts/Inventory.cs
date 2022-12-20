@@ -118,7 +118,7 @@ public class Inventory : MonoBehaviour
     public void ScrollCraftingWindow(string dir)
     {
         craftStatus = "";
-
+        audioManager.PlaySFX("UI_Select");
         if (dir.ToLower() == "left")
         {
             if (craftSlot > 0)

@@ -36,6 +36,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameObject[] menus; // Stores settings and inventory menus
     private GameObject settingsMenu;
     private GameObject inventory;
+    public bool isMenuOpen {get; private set;}
 
     [SerializeField] private GameObject gameOverScreen;
 
@@ -59,6 +60,7 @@ public class GameUI : MonoBehaviour
         settings = GameObject.FindGameObjectWithTag("Settings").GetComponent<Settings>();
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         audioManager = AudioManager.manager; 
+        isMenuOpen = false;
 
         // Add the menus from the inspector fields if they are valid
         for (int i = 0; i < menus.Length; i++)
@@ -122,11 +124,11 @@ public class GameUI : MonoBehaviour
         {
             if (selectedMenu == Screen.Play) SettingsMenu();
             else if (selectedMenu == Screen.Inventory) Back();
-            else if (selectedMenu == Screen.Settings) Back();
+            else if (selectedMenu == Screen.Settings) Back(); 
         }
 
         // Check Game over
-        if (gameManager.IsGameOver()) { GameOver(); }
+        if (gameManager.IsGameOver()) { GameOver(); isMenuOpen = true; }
 
         if (gameManager.GetDay()) { SetTimeUI(false); }
         else { SetTimeUI(true); }
@@ -144,13 +146,42 @@ public class GameUI : MonoBehaviour
     public void Title() { 
         selectedMenu = Screen.Title;
         audioManager.PlaySFX("UI_MenuButton");
+        isMenuOpen = true;
         StartCoroutine(Transition());
     }
-    public void SettingsMenu() { selectedMenu = Screen.Settings; audioManager.PlaySFX("UI_Config"); StartCoroutine(Transition()); }
-    public void Inventory() { selectedMenu = Screen.Inventory; audioManager.PlaySFX("UI_Inventory"); StartCoroutine(Transition()); }
-    public void Back() { selectedMenu = Screen.Play; audioManager.PlaySFX("UI_Cancel"); StartCoroutine(Transition()); }
-    public void GameOver() { selectedMenu = Screen.GameOver; StartCoroutine(Transition()); }
-    public void Restart() { selectedMenu = Screen.Restart; StartCoroutine(Transition()); }
+    
+    public void SettingsMenu() {
+        selectedMenu = Screen.Settings;
+        isMenuOpen = true;
+        audioManager.PlaySFX("UI_Config");
+        StartCoroutine(Transition());
+    }
+    
+    public void Inventory() {
+        selectedMenu = Screen.Inventory;
+        isMenuOpen = true;
+        audioManager.PlaySFX("UI_Inventory");
+        StartCoroutine(Transition());
+    }
+    
+    public void Back() {
+        selectedMenu = Screen.Play;
+        isMenuOpen = false;
+        audioManager.PlaySFX("UI_Cancel");
+        StartCoroutine(Transition());
+    }
+    
+    public void GameOver() {
+        selectedMenu = Screen.GameOver;
+        isMenuOpen = true;
+        StartCoroutine(Transition());
+    }
+    
+    public void Restart() {
+        selectedMenu = Screen.Restart;
+        isMenuOpen = false;
+        StartCoroutine(Transition());
+    }
 
     // Animated Transition between scenes/menus
     IEnumerator Transition()

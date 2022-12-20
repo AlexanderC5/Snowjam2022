@@ -172,6 +172,10 @@ public class PlayerController : MonoBehaviour
         {
             lastInteract.HoldInteract(this); //used for tree chopping/other long interactions
         }
+        if (Input.GetKeyUp(KeyCode.E) && lastInteract != null)
+        {
+            lastInteract.StopInteract(this);
+        }
 
         // Torch
         if (Input.GetKeyDown(KeyCode.Q) && inv["Torch"] > 0)
@@ -182,8 +186,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && attackCooldownTimer <= 0)
         {
-            Attack();
-            attackCooldownTimer = attackCooldown;
+            if (gameUI.isMenuOpen) {}
+            else 
+            {
+                Attack();
+                attackCooldownTimer = attackCooldown;
+            }
         }
         if(attackCooldownTimer > 0)
         {

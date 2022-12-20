@@ -7,11 +7,17 @@ public class Tree : Interactable
 
     float chopTime;
     [SerializeField] int treeWoodAmount = 3;
+    private float chopSoundDuration;
+    private float chopSoundTimer;
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         chopTime = 0;
+        chopSoundDuration = 0.6f;
+        chopSoundTimer = chopSoundDuration;
+        audioManager = AudioManager.manager;
     }
 
     // Update is called once per frame
@@ -32,7 +38,21 @@ public class Tree : Interactable
         {
             for (int i = 1; i < treeWoodAmount; i++) playerController.AddItem("Wood"); // Add treeWoodAmount wood
             playerController.SetToolSprite("None");
+            audioManager.PlayRandomSFX("Interact_Wood");
+            audioManager.PlaySFX("Interact_Pickup");
             Destroy(gameObject);
+        }
+        else
+        {
+            if (chopSoundTimer < chopSoundDuration)
+            {
+                chopSoundTimer += Time.deltaTime;
+            }
+            else
+            {
+                chopSoundTimer -= chopSoundDuration;
+                audioManager.PlaySFX("Attack_Axe");
+            }
         }
     }
 }
