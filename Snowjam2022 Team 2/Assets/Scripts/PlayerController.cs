@@ -442,12 +442,11 @@ public class PlayerController : MonoBehaviour
         {
             audioManager.PlaySFX("DeathFreeze");
             died = true;
+            DontDestroyOnLoad(Instantiate(frozenPlayer, gameObject.transform.position, gameObject.transform.rotation)); //spawn dead player
+            gameManager.SetGameOver(true);
+            Destroy(gameObject);
+            Debug.Log("You Died. RIP.");
         }
-        
-        DontDestroyOnLoad(Instantiate(frozenPlayer, gameObject.transform.position, gameObject.transform.rotation)); //spawn dead player
-        gameManager.SetGameOver(true);
-        Destroy(gameObject);
-        Debug.Log("You Died. RIP.");
     }
 
     //freezing
